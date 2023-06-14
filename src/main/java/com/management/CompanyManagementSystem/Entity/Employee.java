@@ -16,4 +16,8 @@ public class Employee {
     private int gender;
     private int departmentID;
     private int roleID;
+
+    public Role getRole(){
+        return roleID == 0 ? Role.ROLE_ADMIN : Role.ROLE_USER;
+    }
 }
