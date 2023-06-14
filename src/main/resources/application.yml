@@ -2,6 +2,8 @@ server:
   port: 20002
 
 spring:
+  messages:
+    basename: i18n/login
   datasource:
 #    url: jdbc:mysql://192.168.4.150/user_db?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowMultiQueries=true
 #    username: root
@@ -13,9 +15,9 @@ spring:
     password: sf011009sf
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-#mybatis:
-#  mapper-locations: classpath*:mapper/userMapper.xml
-#  type-aliases-package: com.management.CompanyManagementSystem.Entity
+mybatis:
+  mapper-locations: classpath*:mapper/userMapper.xml
+  type-aliases-package: com.management.CompanyManagementSystem.Entity
 
 logging:
   level:
