@@ -24,6 +24,7 @@ public class SecurityConfiguration {
         http
                 .authenticationProvider(customAuthProvider)
                 .authorizeHttpRequests((requests) -> requests
+                    .requestMatchers("/css/**", "/js/**").permitAll()
                     .requestMatchers("/", "/login").permitAll()  // permit register url
     //                .requestMatchers("/users/all").hasRole("ADMIN") //only allow ADMIN access to /users
                     .anyRequest().authenticated()

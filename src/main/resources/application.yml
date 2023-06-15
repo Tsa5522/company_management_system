@@ -15,6 +15,7 @@ spring:
     password: sf011009sf
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.management.CompanyManagementSystem.Entity
@@ -28,3 +29,4 @@ logging:
     org:
       springframework:
         security: DEBUG
+
