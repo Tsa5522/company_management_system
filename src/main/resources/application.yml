@@ -19,7 +19,12 @@ mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   type-aliases-package: com.management.CompanyManagementSystem.Entity
 
+#logging:
+#  level:
+#    root: INFO
+#    com.myDemo.demo: DEBUG
 logging:
   level:
-    root: INFO
-    com.myDemo.demo: DEBUG
+    org:
+      springframework:
+        security: DEBUG
