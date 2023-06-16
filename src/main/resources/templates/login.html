@@ -42,27 +42,31 @@
         </div>
     </div>
 
-    <script type="javascript">
-        const signinBtn = document.querySelector('.signinBtn');
-        const signupBtn = document.querySelector('.signupBtn');
-        const formBx = document.querySelector('.formBx');
-        const body = document.querySelector('body')
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const signinBtn = document.querySelector('.signinBtn');
+            const signupBtn = document.querySelector('.signupBtn');
+            const formBx = document.querySelector('.formBx');
+            const body = document.querySelector('body')
 
-        signupBtn.onclick = function () {
-            formBx.classList.add('active')
-            body.classList.add('active')
-        }
-        signinBtn.onclick = function () {
-            formBx.classList.remove('active')
-            body.classList.remove('active')
-        }
+            signinBtn.onclick = function () {
+                formBx.classList.remove('active')
+                body.classList.remove('active')
+            }
+
+            signupBtn.onclick = function () {
+                formBx.classList.add('active')
+                body.classList.add('active')
+            }
+        });
+
         document.getElementById('registerForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            var fullName = document.getElementById('name').value;
-            var email = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            var confirmPassword = document.getElementById('confirmPassword').value;
+            let fullName = document.getElementById('name').value;
+            let email = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+            let confirmPassword = document.getElementById('confirmPassword').value;
 
             // Password and confirm password validation
             if (password !== confirmPassword) {
@@ -92,11 +96,9 @@
                     }
                 })
                 .catch(error => console.error('Error:', error));
-        });
+        })
 
         function displayErrorMessage(message) {
-            // This function could create a new HTML element with the error message
-            // and append it to your form. For simplicity, we'll just use alert.
             alert(message);
         }
     </script>
