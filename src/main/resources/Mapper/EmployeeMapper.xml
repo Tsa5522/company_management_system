@@ -8,4 +8,9 @@
         FROM employee
         WHERE email = #{email}
     </select>
+
+    <insert id="register" parameterType="com.management.CompanyManagementSystem.Entity.Employee">
+        INSERT INTO employee (fullName, password, email)
+        VALUES (#{fullName}, #{password}, #{email})
+    </insert>
 </mapper>

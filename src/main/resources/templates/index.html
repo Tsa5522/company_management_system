@@ -1,10 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="">
 <head>
+    <base href="/" />
     <meta charset="UTF-8">
-    <title>Index Page</title>
+    <title>Dashboard</title>
+    <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
 </head>
 <body>
-<h1> this is the index page</h1>
+    <div class="container">
+        <div class="navbar">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="title" style="font-size: 1.5em;font-weight: 500;">管理系统</span>
+                    </a>
+                </li>
+                <li class="dashBoardHovered">
+                    <a href="#">
+                        <span class="title">主页面</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+<!--                        <span class="icon"><ion-icon name="people-outline"></ion-icon></span>-->
+                        <span class="title">员工</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+<!--                        <span class="icon"><ion-icon name="chatbubble-outline"></ion-icon></span>-->
+                        <span class="title">信息</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+<!--                        <span class="icon"><ion-icon name="help-outline"></ion-icon></span>-->
+                        <span class="title">帮助</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+                        <span class="title">设置</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+<!--                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>-->
+                        <span class="title">密码</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/login">
+<!--                        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>-->
+                        <span class="title">登出</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // MenuToggle
+        // let toggle = document.querySelector('.toggle');
+        let navigation = document.querySelector('.navbar');
+        // let main = document.querySelector('.main');
+
+        // toggle.onclick = function(){
+        //     navigation.classList.toggle('active');
+        //     main.classList.toggle('active');
+        // }
+
+        // add hovered class in selected list item
+        let list = document.querySelectorAll('.navbar li');
+        function activeLink(){
+            list.forEach((item) =>
+                item.classList.remove('dashBoardHovered'));
+            this.classList.add('dashBoardHovered');
+        }
+        list.forEach((item) =>
+            item.addEventListener('mouseover',activeLink));
+    </script>
 </body>
 </html>

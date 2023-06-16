@@ -1,0 +1,75 @@
+/* Import Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    scroll-behavior: smooth;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    in-height: 100vh;
+    background: whitesmoke;
+    transition: 0.5s;
+    overflow-x: hidden;
+}
+.container {
+    position: relative;
+    width: 100%;
+}
+.navbar {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: cornflowerblue;
+    border-left: 10px solid cornflowerblue;
+    transition: 0.5s;
+    overflow: hidden;
+}
+.navbar ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.navbar ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+.navbar ul li.dashBoardHovered
+{
+    background: whitesmoke;
+}
+.navbar ul li:nth-child(1)
+{
+    margin-bottom: 40px;
+    pointer-events: none;
+}
+.navbar ul li a
+{
+    position: relative;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: whitesmoke;
+}
+.navbar ul li.dashBoardHovered a
+{
+    color: cornflowerblue;
+}
+.navbar ul li a .title
+{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+}
