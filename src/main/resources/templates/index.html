@@ -2,7 +2,7 @@
 <html lang="en" xmlns="">
 <head>
     <base href="/" />
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
 </head>
@@ -11,30 +11,32 @@
         <div class="navbar">
             <ul>
                 <li>
-                    <a href="#">
-                        <span class="title" style="font-size: 1.5em;font-weight: 500;">管理系统</span>
-                    </a>
-                </li>
-                <li class="dashBoardHovered">
-                    <a href="#">
-                        <span class="title">主页面</span>
+                    <a>
+                        <span class="icon"><ion-icon name="logo-apple"></ion-icon></span>
+                        <span class="title" style="font-size: 1.5em;font-weight: 500;">我的管理系统</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-<!--                        <span class="icon"><ion-icon name="people-outline"></ion-icon></span>-->
+                    <a href="/index">
+                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                        <span class="title">主页面</span>
+                    </a>
+                </li>
+                <li id="employeeTab">
+                    <a>
+                        <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
                         <span class="title">员工</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-<!--                        <span class="icon"><ion-icon name="chatbubble-outline"></ion-icon></span>-->
+                        <span class="icon"><ion-icon name="chatbubble-outline"></ion-icon></span>
                         <span class="title">信息</span>
                     </a>
                 </li>
                 <li>
                     <a href="#">
-<!--                        <span class="icon"><ion-icon name="help-outline"></ion-icon></span>-->
+                        <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
                         <span class="title">帮助</span>
                     </a>
                 </li>
@@ -46,40 +48,50 @@
                 </li>
                 <li>
                     <a href="#">
-<!--                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>-->
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
                         <span class="title">密码</span>
                     </a>
                 </li>
                 <li>
                     <a href="/login">
-<!--                        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>-->
+                        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
                         <span class="title">登出</span>
                     </a>
                 </li>
             </ul>
         </div>
+        <div class="toggle" onclick="toggleMenu()"></div>
+        <div class="main">
+            <div class="topbar">
+                <!-- search -->
+                <div class="search">
+                    <label>
+                        <input type="text" placeholder="搜索">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </label>
+                </div>
+                <!-- userImg -->
+                <div class="profile">
+                    <h3 th:text="${fullName + '-' + department}"></h3>
+                    <div class="user">
+                        <img src="/img/civilization5_4Kwallpaper.jpg">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // MenuToggle
-        // let toggle = document.querySelector('.toggle');
-        let navigation = document.querySelector('.navbar');
-        // let main = document.querySelector('.main');
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-        // toggle.onclick = function(){
-        //     navigation.classList.toggle('active');
-        //     main.classList.toggle('active');
-        // }
-
-        // add hovered class in selected list item
-        let list = document.querySelectorAll('.navbar li');
-        function activeLink(){
-            list.forEach((item) =>
-                item.classList.remove('dashBoardHovered'));
-            this.classList.add('dashBoardHovered');
+    <script type="text/javascript">
+        function toggleMenu(){
+            let navbar = document.querySelector('.navbar');
+            let toggle = document.querySelector('.toggle');
+            let main = document.querySelector('.main');
+            main.classList.toggle('active');
+            navbar.classList.toggle('active');
         }
-        list.forEach((item) =>
-            item.addEventListener('mouseover',activeLink));
     </script>
 </body>
 </html>

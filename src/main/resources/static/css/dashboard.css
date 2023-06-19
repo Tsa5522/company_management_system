@@ -1,33 +1,30 @@
-/* Import Google font - Poppins */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    scroll-behavior: smooth;
+    font-family: 'Ubuntu', sans-serif;
 }
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    in-height: 100vh;
-    background: whitesmoke;
-    transition: 0.5s;
-    overflow-x: hidden;
+    min-height: 100vh;
+    background: lightblue;
 }
-.container {
-    position: relative;
-    width: 100%;
-}
+
 .navbar {
     position: fixed;
-    width: 300px;
-    height: 100%;
+    inset: 20px;
+    width: 80px;
     background: cornflowerblue;
     border-left: 10px solid cornflowerblue;
     transition: 0.5s;
     overflow: hidden;
+    border-radius: 50px;
+    box-shadow: 15px 15px 25px rgba(0,0,0,0.15);
+
+}
+.navbar.active {
+    width: 300px;
+    border-radius: 20px;
 }
 .navbar ul {
     position: absolute;
@@ -37,34 +34,67 @@ body {
 }
 .navbar ul li {
     position: relative;
+    width: 60px;
     width: 100%;
-    list-style: none;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
+    list-style: none;
 }
-.navbar ul li.dashBoardHovered
+.navbar ul li:hover
 {
     background: whitesmoke;
+    color: black;
 }
-.navbar ul li:nth-child(1)
-{
+.navbar ul li:nth-child(1) {
+    top: 20px;
     margin-bottom: 40px;
-    pointer-events: none;
+    background: none;
 }
-.navbar ul li a
-{
+.navbar ul li:not(:first-child):hover::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border-bottom-right-radius: 20px;
+    box-shadow: 7.5px 7.5px 0 7.5px whitesmoke;
+}
+.navbar ul li:not(:first-child):hover::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border-top-right-radius: 20px;
+    box-shadow: 7.5px -7.5px 0 7.5px whitesmoke;
+}
+.navbar ul li a {
     position: relative;
+    display: block;
     width: 100%;
     display: flex;
     text-decoration: none;
     color: whitesmoke;
 }
-.navbar ul li.dashBoardHovered a
-{
+.navbar ul li:hover:not(:first-child) a {
     color: cornflowerblue;
 }
-.navbar ul li a .title
-{
+.navbar ul li a .icon {
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 70px;
+    text-align: center;
+}
+.navbar ul li a .icon ion-icon {
+    font-size: 1.75em;
+}
+.navbar ul li a .title {
     position: relative;
     display: block;
     padding: 0 10px;
@@ -72,4 +102,121 @@ body {
     line-height: 60px;
     text-align: start;
     white-space: nowrap;
+}
+.toggle {
+    position: fixed;
+    top: -8px;
+    left: -8px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em;
+    cursor: pointer;
+    background: whitesmoke;
+    border-radius: 50%;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.15);
+}
+.toggle::before {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 3px;
+    border-radius: 2px;
+    background: cornflowerblue;
+    transform: translateY(-5px);
+    transition: 1s;
+}
+.toggle::after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 3px;
+    border-radius: 2px;
+    background: cornflowerblue;
+    transform: translateY(5px);
+    transition: 1s;
+}
+.navigation.active .toggle::before {
+    transform: translateY(0px) rotate(-405deg);
+}
+.navigation.active .toggle::after {
+    transform: translateY(0px) rotate(225deg);
+}
+
+.main {
+    position: absolute;
+    width: calc(100% - 120px);
+    left: 120px;
+    min-height: 100vh;
+    background: whitesmoke;
+    transition: 0.5s;
+}
+.main.active {
+    width: calc(100% - 340px);
+    left: 340px;
+}
+.topbar {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.search {
+    position: relative;
+    width: 400px;
+    margin: 0 10px;
+}
+.search label {
+    position: relative;
+    width: 100%;
+}
+.search label input {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    padding: 5px 20px;
+    padding-left: 35px;
+    font-size: 18px;
+    outline: none;
+    border: 1px solid black;
+}
+.search label ion-icon {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 1.2em;
+}
+.profile
+{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+.profile h3
+{
+    text-align: end;
+    font-weight: 500;
+    line-height: 1em;
+    color: grey;
+}
+.profile .user {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.profile .user img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
