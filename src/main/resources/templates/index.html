@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <base href="/" />
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,82 +8,17 @@
 </head>
 <body>
     <div class="container">
-        <div class="navbar">
-            <ul>
-                <li>
-                    <a>
-                        <span class="icon"><ion-icon name="logo-apple"></ion-icon></span>
-                        <span class="title" style="font-size: 1.5em;font-weight: 500;">我的管理系统</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/index">
-                        <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
-                        <span class="title">主页面</span>
-                    </a>
-                </li>
-                <li id="employeeTab">
-                    <a>
-                        <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
-                        <span class="title">员工</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="chatbubble-outline"></ion-icon></span>
-                        <span class="title">信息</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
-                        <span class="title">帮助</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
-                        <span class="title">设置</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-                        <span class="title">密码</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="/login">
-                        <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
-                        <span class="title">登出</span>
-                    </a>
-                </li>
-            </ul>
+        <div th:insert="~{common :: navbar}"></div>
+        <div class="toggle" th:fragment="toggle" onclick="toggleMenu()">
+            <!-- Your toggle content here -->
         </div>
-        <div class="toggle" onclick="toggleMenu()"></div>
         <div class="main">
-            <div class="topbar">
-                <!-- search -->
-                <div class="search">
-                    <label>
-                        <input type="text" placeholder="搜索">
-                        <ion-icon name="search-outline"></ion-icon>
-                    </label>
-                </div>
-                <!-- userImg -->
-                <div class="profile">
-                    <h3 th:text="${fullName + '-' + department}"></h3>
-                    <div class="user">
-                        <img src="/img/civilization5_4Kwallpaper.jpg">
-                    </div>
-                </div>
-            </div>
+            <div th:insert="~{common :: topbar}"></div>
         </div>
     </div>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
     <script type="text/javascript">
         function toggleMenu(){
             let navbar = document.querySelector('.navbar');

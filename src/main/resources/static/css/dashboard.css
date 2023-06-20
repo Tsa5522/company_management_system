@@ -20,7 +20,6 @@ body {
     overflow: hidden;
     border-radius: 50px;
     box-shadow: 15px 15px 25px rgba(0,0,0,0.15);
-
 }
 .navbar.active {
     width: 300px;
@@ -39,6 +38,7 @@ body {
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     list-style: none;
+    cursor: pointer;
 }
 .navbar ul li:hover
 {
@@ -138,10 +138,10 @@ body {
     transform: translateY(5px);
     transition: 1s;
 }
-.navigation.active .toggle::before {
+.navbar.active .toggle::before {
     transform: translateY(0px) rotate(-405deg);
 }
-.navigation.active .toggle::after {
+.navbar.active .toggle::after {
     transform: translateY(0px) rotate(225deg);
 }
 

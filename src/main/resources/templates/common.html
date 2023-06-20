@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <base href="/" />
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>component</title>
+  <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+<body>
+
+  <nav class="navbar" th:fragment="navbar">
+    <!-- Your navbar content here -->
+    <ul>
+      <li>
+        <a href="/index">
+          <span class="icon"><ion-icon name="logo-apple"></ion-icon></span>
+          <span class="title" style="font-size: 1.5em;font-weight: 500;">我的管理系统</span>
+        </a>
+      </li>
+      <li>
+        <a href="/index">
+          <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+          <span class="title">主页面</span>
+        </a>
+      </li>
+      <li>
+        <a href="allEmp">
+          <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+          <span class="title">员工</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="chatbubble-outline"></ion-icon></span>
+          <span class="title">信息</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
+          <span class="title">帮助</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+          <span class="title">设置</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+          <span class="title">密码</span>
+        </a>
+      </li>
+      <li>
+        <a href="/login">
+          <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+          <span class="title">登出</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+<nav class="topbar" th:fragment="topbar">
+  <!-- Your topbar content here -->
+  <div class="topbar">
+    <!-- search -->
+    <div class="search">
+      <label>
+        <input type="text" placeholder="搜索">
+        <ion-icon name="search-outline"></ion-icon>
+      </label>
+    </div>
+    <!-- userImg -->
+    <div class="profile">
+      <h3 th:text="${fullName + '-' + department}"></h3>
+      <div class="user">
+        <img src="/img/civilization5_4Kwallpaper.jpg">
+      </div>
+    </div>
+  </div>
+</nav>
+
+</body>
+</html>

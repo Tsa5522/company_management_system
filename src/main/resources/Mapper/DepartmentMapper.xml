@@ -8,4 +8,7 @@
         FROM department
         WHERE departmentID = #{departmentID}
     </select>
+    <select id="findAll" resultType="com.management.CompanyManagementSystem.Entity.Department">
+        SELECT * FROM department
+    </select>
 </mapper>

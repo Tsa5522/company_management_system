@@ -13,4 +13,18 @@
         INSERT INTO employee (fullName, password, email)
         VALUES (#{fullName}, #{password}, #{email})
     </insert>
+
+    <select id="findUserList" resultType="com.management.CompanyManagementSystem.Entity.Employee">
+        SELECT * FROM employee
+    </select>
+
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM employee
+        WHERE id = #{id}
+    </delete>
+
+    <insert id="addEmployee" parameterType="com.management.CompanyManagementSystem.Entity.Employee">
+        INSERT INTO employee (fullName, password, email, gender, departmentID, roleID)
+        VALUES (#{fullName}, #{password}, #{email},#{gender},#{departmentID}, #{roleID})
+    </insert>
 </mapper>

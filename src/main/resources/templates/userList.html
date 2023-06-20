@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+    <base href="/" />
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link href="../static/css/userList.css" th:href="@{/css/userList.css}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div th:insert="~{common :: navbar}"></div>
+        <div class="toggle" onclick="toggleMenu()"></div>
+        <div class="main">
+            <div th:insert="~{common :: topbar}"></div>
+            <div class="table-users">
+                <table>
+                    <caption>员工列表</caption>
+                    <tr>
+                        <th>ID</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>邮箱</th>
+                        <th>部门</th>
+                        <th>权限</th>
+                        <th>操作</th>
+                    </tr>
+
+                    <tr th:each="emp:${employees}">
+<!--                        <td><img src="/img/civilization5_4Kwallpaper.jpg"></td>-->
+                        <td th:text="${emp.getId()}"></td>
+                        <td th:text="${emp.getFullName}"></td>
+                        <td th:text="${emp.getGenderString()}"></td>
+                        <td th:text="${emp.getEmail()}"></td>
+                        <td th:text="${emp.getDepartmentString()}"></td>
+                        <td th:text="${emp.getRoleString()}"></td>
+                        <td><button class="messageBtn" data-id="${emp.getId()}">发送信息</button>
+                            <button class="editBtn adminButton">修改</button>
+                            <button class="deleteBtn adminButton" th:data-id="${emp.getId()}">删除</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button class="addUserBtn adminButton">添加员工</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function() {
+            // Fetch the current user's role when the page loads
+            fetch('/user/currentRole')
+                .then(response => response.json())
+                .then(data => {
+                    // If the user is not an admin, hide the edit and delete buttons
+                    if (data.role !== 'ROLE_ADMIN') {
+                        const adminButtons = document.querySelectorAll('.adminButton');
+                        adminButtons.forEach(button => {
+                            button.classList.add('hide');
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        };
+
+        function toggleMenu(){
+            let navbar = document.querySelector('.navbar');
+            let main = document.querySelector('.main');
+            main.classList.toggle('active');
+            navbar.classList.toggle('active');
+        }
+
+        document.querySelectorAll('.messageBtn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var id = this.dataset.id;
+                // message to the person, on the message page it will automatically
+                // fill in the 'from' and 'to' query
+                // window.location.href = '/user/message/' + id;
+            });
+        });
+
+
+        document.querySelectorAll('.editBtn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                console.log('Edit button clicked');
+
+                // Replace with code to edit the user
+            });
+        });
+
+        document.querySelectorAll('.deleteBtn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                console.log('Delete button clicked');
+                // Replace with code to delete the user
+                var id = this.dataset.id;
+
+                // Send a DELETE request to the server
+                if (confirm('确认要删除此用户？（操作不可撤回）')) {
+                    fetch('/user/deleteEmp/' + id, {
+                        method: 'DELETE',
+                    })
+                        .then(function(response) {
+                            if(response.ok) {
+                                // If the server responds with a successful status, reload the page
+                                location.reload();
+                            } else {
+                                console.log('Error: ' + response.statusText);
+                            }
+                        })
+                        .catch(function(error) {
+                            console.log('Fetch Error: ', error);
+                        });
+                }
+            });
+        });
+
+        document.querySelectorAll('.addUserBtn').forEach(function(button) {
+            button.addEventListener('click', function() {
+            // Redirect to the Add User page
+            window.location.href = '/allEmp/addUser'})
+        });
+    </script>
+</body>
+</html>

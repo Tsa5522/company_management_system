@@ -1,8 +1,11 @@
 package com.management.CompanyManagementSystem.Service;
 
+import com.management.CompanyManagementSystem.Entity.Department;
 import com.management.CompanyManagementSystem.Entity.Employee;
 import com.management.CompanyManagementSystem.Mapper.DepartmentMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DepartmentService{
@@ -14,5 +17,9 @@ public class DepartmentService{
 
     public String findDepartment(Employee employee) {
         return departmentMapper.findDepartmentByID(employee.getDepartmentID());
+    }
+
+    public List<Department> findAll(){
+        return departmentMapper.findAll();
     }
 }
