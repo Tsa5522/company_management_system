@@ -7,9 +7,12 @@ import com.management.CompanyManagementSystem.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 
@@ -17,11 +20,12 @@ import java.util.Collection;
 public class indexController {
     private final EmployeeService employeeService;
     private final DepartmentService departmentService;
-
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public indexController(EmployeeService employeeService, DepartmentService departmentService) {
+    public indexController(EmployeeService employeeService, DepartmentService departmentService,PasswordEncoder passwordEncoder) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
+        this.passwordEncoder = passwordEncoder;
     }
     @GetMapping("/allEmp")
     public String getEmployeeList(Model model) {
@@ -43,5 +47,37 @@ public class indexController {
         Collection<Department> departments = departmentService.findAll();
         model.addAttribute("departments", departments);
         return "addEmployee";
+    }
+    @GetMapping("/allEmp/editUser/{id}")
+    public String editEmployee(Model model, @PathVariable String id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("fullName", employee.getFullName());
+        model.addAttribute("department",departmentService.findDepartment(employee));
+        Collection<Department> departments = departmentService.findAll();
+        model.addAttribute("departments", departments);
+        int empId = Integer.parseInt(id);
+        Employee editEmp = employeeService.findUserById(empId);
+        model.addAttribute("editEmp", editEmp);
+        model.addAttribute("encoder",passwordEncoder);
+        return "editEmployee";
+    }
+    @GetMapping("/inbox")
+    public String getMessageInbox(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("fullName", employee.getFullName());
+        model.addAttribute("department",departmentService.findDepartment(employee));
+        model.addAttribute("employee", employee);
+        return "inbox";
+    }
+    @GetMapping("/inbox/send")
+    public String sendMessage(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("fullName", employee.getFullName());
+        model.addAttribute("department",departmentService.findDepartment(employee));
+        model.addAttribute("employee", employee);
+        return "inbox";
     }
 }

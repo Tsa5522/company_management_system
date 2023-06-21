@@ -28,6 +28,7 @@
               <div class="input-box">
                 <span class="details">所属部门</span>
                 <select class="choose" name="did">
+                  <option class="options" value="-1">无</option>
                   <option class="options" th:each="dept:${departments}" th:text="${dept.getDName()}"
                           th:value="${dept.getDepartmentID()}"></option>
                 </select>
@@ -66,6 +67,9 @@
             <div class="button">
               <input type="submit" value="注册此员工">
             </div>
+            <div class="button">
+              <input type="button" name="cancel" value="取消" onclick="location.href='/allEmp'">
+            </div>
           </form>
         </div>
       </div>
@@ -81,6 +85,7 @@
       main.classList.toggle('active');
       navbar.classList.toggle('active');
     }
+
     document.querySelector('form').addEventListener('submit', function(event) {
       event.preventDefault(); // This will prevent the default form submission behavior
 
@@ -89,6 +94,9 @@
       // Get form data
       let fullName = formData.get('name');
       let email = formData.get('email');
+      if (formData.get('did') === -1){
+        alert("部门不能为空");
+      }
       let departmentID = formData.get('did');
       let password = formData.get('password');
 

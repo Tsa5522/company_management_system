@@ -28,14 +28,14 @@
 
                     <tr th:each="emp:${employees}">
 <!--                        <td><img src="/img/civilization5_4Kwallpaper.jpg"></td>-->
-                        <td th:text="${emp.getId()}"></td>
+                        <td th:text="${emp.getId()}" id="empId"></td>
                         <td th:text="${emp.getFullName}"></td>
                         <td th:text="${emp.getGenderString()}"></td>
                         <td th:text="${emp.getEmail()}"></td>
                         <td th:text="${emp.getDepartmentString()}"></td>
                         <td th:text="${emp.getRoleString()}"></td>
                         <td><button class="messageBtn" data-id="${emp.getId()}">发送信息</button>
-                            <button class="editBtn adminButton">修改</button>
+                            <button class="editBtn adminButton" th:data-id="${emp.getId()}">修改</button>
                             <button class="deleteBtn adminButton" th:data-id="${emp.getId()}">删除</button>
                         </td>
                     </tr>
@@ -75,10 +75,8 @@
 
         document.querySelectorAll('.messageBtn').forEach(function(button) {
             button.addEventListener('click', function() {
-                var id = this.dataset.id;
                 // message to the person, on the message page it will automatically
-                // fill in the 'from' and 'to' query
-                // window.location.href = '/user/message/' + id;
+                window.location.href = '/inbox/send';
             });
         });
 
@@ -86,8 +84,9 @@
         document.querySelectorAll('.editBtn').forEach(function(button) {
             button.addEventListener('click', function() {
                 console.log('Edit button clicked');
-
+                var id = this.dataset.id;
                 // Replace with code to edit the user
+                window.location.href = '/allEmp/editUser/' + id;
             });
         });
 

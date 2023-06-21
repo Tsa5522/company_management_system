@@ -9,6 +9,12 @@
         WHERE email = #{email}
     </select>
 
+    <select id="findUserByID" resultType="com.management.CompanyManagementSystem.Entity.Employee">
+        SELECT *
+        FROM employee
+        WHERE id = #{id}
+    </select>
+
     <insert id="register" parameterType="com.management.CompanyManagementSystem.Entity.Employee">
         INSERT INTO employee (fullName, password, email)
         VALUES (#{fullName}, #{password}, #{email})
@@ -27,4 +33,15 @@
         INSERT INTO employee (fullName, password, email, gender, departmentID, roleID)
         VALUES (#{fullName}, #{password}, #{email},#{gender},#{departmentID}, #{roleID})
     </insert>
+
+    <update id="editEmployee" parameterType="com.management.CompanyManagementSystem.Entity.Employee">
+        UPDATE employee
+        SET
+            fullName = #{fullName},
+            email = #{email},
+            gender = #{gender},
+            departmentID = #{departmentID},
+            roleID = #{roleID}
+        WHERE id = #{id};
+    </update>
 </mapper>

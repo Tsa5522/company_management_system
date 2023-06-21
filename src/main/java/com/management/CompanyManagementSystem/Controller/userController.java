@@ -6,20 +6,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 @RestController
 @RequestMapping("/user")
 public class userController {
     final
     EmployeeService employeeService;
+    private final PasswordEncoder passwordEncoder;
 
-    public userController(EmployeeService employeeService) {
+    public userController(EmployeeService employeeService, PasswordEncoder passwordEncoder) {
         this.employeeService = employeeService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/currentRole")
@@ -36,7 +35,14 @@ public class userController {
 
     @PostMapping("addUser")
     public ResponseEntity<?> addEmployee(@RequestBody Employee emp) {
+        emp.setPassword(passwordEncoder.encode(emp.getPassword()));
         employeeService.addEmp(emp);
+        return new ResponseEntity<>(emp, HttpStatus.OK);
+    }
+
+    @PutMapping("editUser")
+    public ResponseEntity<?> editEmployee(@RequestBody Employee emp) {
+        employeeService.editEmp(emp);
         return new ResponseEntity<>(emp, HttpStatus.OK);
     }
 

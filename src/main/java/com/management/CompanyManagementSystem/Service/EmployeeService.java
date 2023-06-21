@@ -24,6 +24,9 @@ public class EmployeeService{
         return employeeMapper.findUserByEmail(email);
     }
 
+    public Employee findUserById(int id) {
+        return employeeMapper.findUserByID(id);
+    }
     public boolean passwordMatches(Employee employee, String rawPassword) {
         return passwordEncoder.matches(rawPassword, employee.getPassword());
     }
@@ -52,6 +55,7 @@ public class EmployeeService{
     public void addEmp(Employee emp) {
         employeeMapper.addEmployee(emp);
     }
+    public void editEmp(Employee emp) {employeeMapper.editEmployee(emp);}
 }
 
 
