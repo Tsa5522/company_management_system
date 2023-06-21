@@ -15,22 +15,25 @@
     <div th:insert="~{common :: topbar}"></div>
     <div class="messageBox">
       <form id="message-form">
-        <label>From:</label>
+        <label>发件人：</label>
         <input type="text" id="fromUser" name="fromUser" required th:value="${employee.getEmail()}">
         <input type="hidden" id="fromID" th:value="${employee.getId()}">
 
-        <label for="toUser">To:</label>
+        <label for="toUser">收件人：</label>
         <input type="text" id="toUser" name="toUser" required th:value="${toUser.getEmail()}">
         <input type="hidden" id="toID" th:value="${toUser.getId()}">
 
-        <label for="title">Title:</label>
+        <label for="title">邮件名：</label>
         <input type="text" id="title" name="title" required>
 
-        <label for="content">Message:</label>
+        <label for="content">内容：</label>
         <textarea id="content" name="content" required></textarea>
 
-        <button type="submit">Send Message</button>
+        <button type="submit">发送邮件</button>
       </form>
+      <div class="button">
+        <input type="button" name="cancel" value="返回" onclick="location.href='/inbox'">
+      </div>
     </div>
   </div>
 </div>

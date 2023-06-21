@@ -21,54 +21,66 @@ body {
     width: calc(100% - 340px);
     left: 340px;
 }
-
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%; /* Adjust width of form here */
-    height: 500px;
-    margin: 20px 0;
-    padding: 20px;
-}
-form .input-box {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 20px;
-    align-items: flex-start;
-}
-
-form .input-box input, form .input-box textarea {
-    padding: 10px;
-    border: 1px solid #ddd;
+.messageBox {
+    margin: 40px 40px 40px 40px;
+    padding: 40px;
+    width: 80vw;
+    height: 80vh;
+    box-sizing: border-box;
     border-radius: 5px;
-    width: 100%;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    overflow-y: auto;
 }
-form .input-box textarea {
+
+#message-form label {
+    font-size: 1rem;
+    color: #333;
+    display: block;
+    margin-top: 15px;
+}
+
+#message-form input[type="text"],
+#message-form textarea {
+    width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
     border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#message-form button {
+    display: block;
+    height: 100%;
     width: 100%;
-    height: 40vh; /* 20% of the viewport's height. Adjust this value to your liking */
-}
-
-form .input-box label {
-    margin-bottom: 20px;
-    font-weight: bold;
-    font-size: 50px;
-}
-
-form button {
-    padding: 10px 20px;
+    border-radius: 5px;
     border: none;
-    background-color: cornflowerblue;
-    color: whitesmoke;
-    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
 }
 
-form button:hover {
-    background-color: cornflowerblue;
+#message-form button:hover {
+    background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+}
+
+.button input{
+    margin: 20px auto;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+.button input:hover{
+    /* transform: scale(0.99); */
+    background: linear-gradient(-135deg, #71b7e6, #9b59b6);
 }

@@ -48,11 +48,11 @@
             const detailsDiv = document.getElementById('message-details');
 
             detailsDiv.innerHTML = `
-      <h2>Title: ${message.title}</h2>
-      <p>From: ${message.fromUserName}</p>
-      <p>To: ${message.toUserName}</p>
-      <p>Sent at: ${new Date(message.sendTime).toLocaleString()}</p>
-      <p>Content: ${message.content}</p>
+      <h2>邮件名称： ${message.title}</h2>
+      <p>发件人： ${message.fromUserName}</p>
+      <p>收件人： ${message.toUserName}</p>
+      <p>发送时间： ${new Date(message.sendTime).toLocaleString()}</p>
+      <p>内容： ${message.content}</p>
     `;
           })
           .catch(err => console.error(err));
