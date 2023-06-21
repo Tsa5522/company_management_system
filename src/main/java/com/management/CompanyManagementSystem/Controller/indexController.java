@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 
@@ -71,13 +70,28 @@ public class indexController {
         model.addAttribute("employee", employee);
         return "inbox";
     }
-    @GetMapping("/inbox/send")
-    public String sendMessage(Model model) {
+    @GetMapping("/inbox/send/{id}")
+    public String sendMessage(Model model, @PathVariable String id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Employee employee = employeeService.findUserByEmail(auth.getName());
         model.addAttribute("fullName", employee.getFullName());
         model.addAttribute("department",departmentService.findDepartment(employee));
         model.addAttribute("employee", employee);
-        return "inbox";
+        int empId = Integer.parseInt(id);
+        Employee toUser = employeeService.findUserById(empId);
+        model.addAttribute("toUser", toUser);
+        return "sendMessage";
+    }
+
+    @GetMapping("/messageDetail/{messageID}")
+    public String messageDetail(Model model, @PathVariable String messageID) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("fullName", employee.getFullName());
+        model.addAttribute("department",departmentService.findDepartment(employee));
+        model.addAttribute("employee", employee);
+        long msgID = Integer.parseInt(messageID);
+        model.addAttribute("msg", msgID);
+        return "messageDetail";
     }
 }

@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+}
+body {
+    min-height: 100vh;
+    background: lightblue;
+}
+.main {
+    position: absolute;
+    width: calc(100% - 120px);
+    left: 120px;
+    min-height: 100vh;
+    background: whitesmoke;
+    transition: 0.5s;
+}
+.main.active {
+    width: calc(100% - 340px);
+    left: 340px;
+}
+.content {
+    margin: 40px 40px 40px 40px;
+}
+.content .title{
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+}
+.content .title::before{
+     content: "";
+     position: absolute;
+     left: 0;
+     bottom: 0;
+     height: 3px;
+     width: 30px;
+     border-radius: 5px;
+     background: linear-gradient(135deg, #71b7e6, #9b59b6);
+ }
+.inbox-item {
+    border: 1px solid #ddd;
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.inbox-item:hover {background-color: #ddd;}
+
+.inbox-item td {
+    padding: 12px;
+    overflow: hidden; /* Hide overflowed content */
+    text-overflow: ellipsis; /* Show '...' when content overflows */
+    white-space: nowrap; /* Keep cell content on one line */
+}
+
+#inbox-list {
+    width: 100%;
+    table-layout: fixed; /* Fixed layout will prevent cell widths from varying */
+}
+
+.inbox-title {
+    cursor: pointer; /* Change cursor to pointer when over message title */
+}
+.inbox-item .inbox-message {
+    max-width: 70%;
+}
+
+.inbox-item .inbox-date {
+    font-size: 0.8em;
+    color: #888;
+}
+

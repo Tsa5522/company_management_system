@@ -34,7 +34,7 @@
                         <td th:text="${emp.getEmail()}"></td>
                         <td th:text="${emp.getDepartmentString()}"></td>
                         <td th:text="${emp.getRoleString()}"></td>
-                        <td><button class="messageBtn" data-id="${emp.getId()}">发送信息</button>
+                        <td><button class="messageBtn" th:data-id="${emp.getId()}">发送信息</button>
                             <button class="editBtn adminButton" th:data-id="${emp.getId()}">修改</button>
                             <button class="deleteBtn adminButton" th:data-id="${emp.getId()}">删除</button>
                         </td>
@@ -76,7 +76,8 @@
         document.querySelectorAll('.messageBtn').forEach(function(button) {
             button.addEventListener('click', function() {
                 // message to the person, on the message page it will automatically
-                window.location.href = '/inbox/send';
+                var id = this.dataset.id;
+                window.location.href = '/inbox/send/' + id;
             });
         });
 

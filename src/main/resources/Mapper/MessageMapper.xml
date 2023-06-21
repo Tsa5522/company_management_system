@@ -6,4 +6,20 @@
         INSERT INTO messages (sendTime, fromUser, toUser, title, content)
         VALUES (#{sendTime}, #{fromUser},#{toUser},#{title},#{content})
     </insert>
+
+    <select id="getMessages" resultType="com.management.CompanyManagementSystem.Entity.Message">
+        SELECT m.messageID, m.sendTime, m.fromUser, m.toUser, m.title, m.content, uf.fullName as fromUserName, ut.fullName as toUserName
+        FROM messages m
+                 JOIN employee uf ON m.fromUser = uf.id
+                 JOIN employee ut ON m.toUser = ut.id
+        WHERE m.fromUser = #{id} OR m.toUser = #{id};
+    </select>
+
+    <select id="findMessage" resultType="com.management.CompanyManagementSystem.Entity.Message">
+        SELECT m.messageID, m.sendTime, m.fromUser, m.toUser, m.title, m.content, uf.fullName as fromUserName, ut.fullName as toUserName
+        FROM messages m
+                 JOIN employee uf ON m.fromUser = uf.id
+                 JOIN employee ut ON m.toUser = ut.id
+        WHERE m.messageID = #{messageID};
+    </select>
 </mapper>

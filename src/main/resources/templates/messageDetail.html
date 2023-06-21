@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/" />
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Details</title>
+  <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+  <link href="../static/css/messageDetail.css" th:href="@{/css/messageDetail.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div th:insert="~{common :: navbar}"></div>
+  <div class="toggle" onclick="toggleMenu()"></div>
+  <div class="main">
+    <div th:insert="~{common :: topbar}"></div>
+    <div class="content">
+      <div class="title">收件箱</div>
+      <input type="hidden" id="id" th:value="${employee.getId()}">
+      <div id="message-details">
+        <input type="hidden" id="msgID" th:value="${msg}">
+        <!-- Details will be inserted here -->
+      </div>
+      <div class="button">
+        <input type="button" name="cancel" value="返回" onclick="location.href='/inbox'">
+      </div>
+
+      <!-- Messages will be appended here -->
+    </div>
+  </div>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script type="text/javascript">
+  function toggleMenu(){
+    let navbar = document.querySelector('.navbar');
+    let main = document.querySelector('.main');
+    main.classList.toggle('active');
+    navbar.classList.toggle('active');
+  }
+  const messageId = document.getElementById('msgID').value;
+  const url = '/message/findMessage/' + messageId;
+
+  fetch(url)
+          .then(response => response.json())
+          .then(message => {
+            console.log(message);  // Add this line to inspect the 'message' object
+            const detailsDiv = document.getElementById('message-details');
+
+            detailsDiv.innerHTML = `
+      <h2>Title: ${message.title}</h2>
+      <p>From: ${message.fromUserName}</p>
+      <p>To: ${message.toUserName}</p>
+      <p>Sent at: ${new Date(message.sendTime).toLocaleString()}</p>
+      <p>Content: ${message.content}</p>
+    `;
+          })
+          .catch(err => console.error(err));
+
+</script>
+</body>
+</html>

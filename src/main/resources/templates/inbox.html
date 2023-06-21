@@ -1,72 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <base href="/" />
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Message Inbox</title>
-  <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
-  <link href="../static/css/messageInbox.css" th:href="@{/css/messageInbox.css}" rel="stylesheet">
+    <base href="/" />
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inbox</title>
+    <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link href="../static/css/inbox.css" th:href="@{/css/inbox.css}" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-  <div th:insert="~{common :: navbar}"></div>
-  <div class="toggle" onclick="toggleMenu()"></div>
-  <div class="main">
-    <div th:insert="~{common :: topbar}"></div>
-    <div class="messageBox">
-      <form id="message-form">
-        <label>From:</label>
-        <div th:text="${employee.getEmail()}"></div>
+    <div th:insert="~{common :: navbar}"></div>
+    <div class="toggle" onclick="toggleMenu()"></div>
+    <div class="main">
+        <div th:insert="~{common :: topbar}"></div>
+        <div class="content">
+            <div class="title">收件箱</div>
+            <input type="hidden" id="id" th:value="${employee.getId()}">
+            <table id="inbox-list">
+            </table>
 
-        <label for="toUser">To:</label>
-        <input type="text" id="toUser" name="toUser" required>
-
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
-
-        <label for="content">Message:</label>
-        <textarea id="content" name="content" required></textarea>
-
-        <button type="submit">Send Message</button>
-      </form>
+            <!-- Messages will be appended here -->
+        </div>
     </div>
-  </div>
 </div>
-
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <script type="text/javascript">
-  function toggleMenu(){
-    let navbar = document.querySelector('.navbar');
-    let main = document.querySelector('.main');
-    main.classList.toggle('active');
-    navbar.classList.toggle('active');
-  }
-  document.getElementById('message-form').addEventListener('submit', function(event) {
-    event.preventDefault();
+    function toggleMenu(){
+        let navbar = document.querySelector('.navbar');
+        let main = document.querySelector('.main');
+        main.classList.toggle('active');
+        navbar.classList.toggle('active');
+    }
+    // replace this URL with your endpoint
+    const id = document.getElementById('id').value;
+    const url = '/message/getMessages/' + id;
 
-    const toUser = document.getElementById('toUser').value;
-    const title = document.getElementById('title').value;
-    const content = document.getElementById('content').value;
-    const sendTime = new Date().toISOString();
+    // fetch the messages
+    fetch(url)
+        .then(response => response.json())
+        .then(messages => {
+            const inboxList = document.getElementById('inbox-list');
 
-    fetch('/messages/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ sendTime, toUser, title, content })
-    }).then(response => {
-      if (response.ok) {
-        alert('Message sent successfully!');
-      } else {
-        alert('Failed to send message.');
-      }
-    });
-  });
+            // Create table headers
+            const headerRow = document.createElement('tr');
+            ['From', 'To', 'Title', 'Time'].forEach(headerText => {
+                const header = document.createElement('th');
+                header.textContent = headerText;
+                headerRow.appendChild(header);
+            });
+            inboxList.appendChild(headerRow);
+
+            // Loop through each message and append it to the list
+            messages.forEach(message => {
+                console.log(message);
+                const listItem = document.createElement('tr');
+                listItem.className = 'inbox-item';
+
+                const fromEl = document.createElement('td');
+                fromEl.className = 'inbox-from';
+                fromEl.textContent = message.fromUserName;
+
+                const toEl = document.createElement('td');
+                toEl.className = 'inbox-to';
+                toEl.textContent = message.toUserName;
+
+                const titleEl = document.createElement('td');
+                const messageID = message.messageID;
+                titleEl.className = 'inbox-title';
+                titleEl.textContent = message.title;
+                // add event listener to show content when title is clicked
+                titleEl.addEventListener('click', function() {
+                    window.location.href = '/messageDetail/' + messageID;
+                });
+
+                const dateEl = document.createElement('td');
+                dateEl.className = 'inbox-date';
+                const date = new Date(message.sendTime);
+                dateEl.textContent = date.toLocaleString();
+
+                listItem.appendChild(fromEl);
+                listItem.appendChild(toEl);
+                listItem.appendChild(titleEl);
+                listItem.appendChild(dateEl);
+
+                inboxList.appendChild(listItem);
+            });
+        })
+        .catch(err => console.error(err));
+
 
 </script>
-
 </body>
 </html>
