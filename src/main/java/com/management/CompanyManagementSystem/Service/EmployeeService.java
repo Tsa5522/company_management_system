@@ -56,6 +56,9 @@ public class EmployeeService{
         employeeMapper.addEmployee(emp);
     }
     public void editEmp(Employee emp) {employeeMapper.editEmployee(emp);}
+    public void editPassword(Employee emp) {
+        employeeMapper.editPassword(emp.getPassword(), emp.getId());
+    }
 }
 
 

@@ -94,4 +94,18 @@ public class indexController {
         model.addAttribute("msg", msgID);
         return "messageDetail";
     }
+
+    @GetMapping("/forgotPassword")
+    public String changePassword() {
+        return "changePassword";
+    }
+    @GetMapping("/password")
+    public String passwordSetting(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("currentEmp", employee);
+        model.addAttribute("fullName", employee.getFullName());
+        model.addAttribute("department",departmentService.findDepartment(employee));
+        return "password";
+    }
 }

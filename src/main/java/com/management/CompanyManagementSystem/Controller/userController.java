@@ -2,6 +2,7 @@ package com.management.CompanyManagementSystem.Controller;
 
 import com.management.CompanyManagementSystem.Entity.Employee;
 import com.management.CompanyManagementSystem.Service.EmployeeService;
+import org.apache.catalina.util.ToStringUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -45,5 +46,14 @@ public class userController {
         employeeService.editEmp(emp);
         return new ResponseEntity<>(emp, HttpStatus.OK);
     }
+
+    @PostMapping("editPassword")
+    public ResponseEntity<?> editPassword(@RequestBody Employee emp) {
+        Employee employee = employeeService.findUserByEmail(emp.getEmail());
+        employee.setPassword(passwordEncoder.encode(emp.getPassword()));
+        employeeService.editPassword(employee);
+        return new ResponseEntity<>(emp, HttpStatus.OK);
+    }
+
 
 }

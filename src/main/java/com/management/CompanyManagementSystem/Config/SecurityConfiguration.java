@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                 .authenticationProvider(customAuthProvider)
                 .authorizeHttpRequests((requests) -> requests
                     .requestMatchers("/css/**", "/js/**").permitAll()
-                    .requestMatchers("/", "/login","/register").permitAll()  // permit register url
+                    .requestMatchers("/", "/login","/register","/forgotPassword").permitAll()  // permit register url
     //                .requestMatchers("/users/all").hasRole("ADMIN") //only allow ADMIN access to /users
                     .anyRequest().authenticated()
                 )

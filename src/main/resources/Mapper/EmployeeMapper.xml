@@ -44,4 +44,8 @@
             roleID = #{roleID}
         WHERE id = #{id};
     </update>
+
+    <update id="editPassword">
+        UPDATE employee SET password = #{password} WHERE id = #{id}
+    </update>
 </mapper>

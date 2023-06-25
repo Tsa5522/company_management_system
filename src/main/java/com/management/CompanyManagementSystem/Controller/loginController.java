@@ -28,10 +28,7 @@ public class loginController {
     public String getLogin() {
         return "login";
     }
-    @GetMapping("/loginFail")
-    public String getLoginFail() {
-        return "loginFail";
-    }
+
 
     @GetMapping("/index")
     public String getIndexPage(Model model) {

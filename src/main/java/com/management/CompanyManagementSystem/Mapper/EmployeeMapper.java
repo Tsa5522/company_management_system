@@ -2,6 +2,7 @@ package com.management.CompanyManagementSystem.Mapper;
 
 import com.management.CompanyManagementSystem.Entity.Employee;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface EmployeeMapper {
     void deleteUser(int id);
     void addEmployee(Employee employee);
     void editEmployee(Employee employee);
+    void editPassword(@Param("password") String password, @Param("id") int id);
 }
