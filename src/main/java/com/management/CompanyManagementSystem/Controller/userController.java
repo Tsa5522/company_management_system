@@ -2,7 +2,6 @@ package com.management.CompanyManagementSystem.Controller;
 
 import com.management.CompanyManagementSystem.Entity.Employee;
 import com.management.CompanyManagementSystem.Service.EmployeeService;
-import org.apache.catalina.util.ToStringUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -47,12 +46,24 @@ public class userController {
         return new ResponseEntity<>(emp, HttpStatus.OK);
     }
 
-    @PostMapping("editPassword")
-    public ResponseEntity<?> editPassword(@RequestBody Employee emp) {
+    @PostMapping("forgotPassword")
+    public ResponseEntity<?> forgotPassword(@RequestBody Employee emp) {
         Employee employee = employeeService.findUserByEmail(emp.getEmail());
         employee.setPassword(passwordEncoder.encode(emp.getPassword()));
         employeeService.editPassword(employee);
-        return new ResponseEntity<>(emp, HttpStatus.OK);
+        return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("editPassword")
+    public ResponseEntity<?> editPassword(@RequestBody Employee emp) {
+        Employee employee = employeeService.findUserByEmail(emp.getEmail());
+        if (!passwordEncoder.matches(emp.getFullName(), employee.getPassword())){
+            return new ResponseEntity<>("Incorrect old password", HttpStatus.BAD_REQUEST);
+        } else {
+            employee.setPassword(passwordEncoder.encode(emp.getPassword()));
+            employeeService.editPassword(employee);
+            return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
+        }
     }
 
 

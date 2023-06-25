@@ -106,6 +106,7 @@ public class indexController {
         model.addAttribute("currentEmp", employee);
         model.addAttribute("fullName", employee.getFullName());
         model.addAttribute("department",departmentService.findDepartment(employee));
+        model.addAttribute("encoder",passwordEncoder);
         return "password";
     }
 }

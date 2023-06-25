@@ -41,7 +41,8 @@
             email = #{email},
             gender = #{gender},
             departmentID = #{departmentID},
-            roleID = #{roleID}
+            roleID = #{roleID},
+            password = #{password}
         WHERE id = #{id};
     </update>
 

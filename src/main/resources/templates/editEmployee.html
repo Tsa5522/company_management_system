@@ -41,6 +41,13 @@
               <option class="options" value="0" th:selected="${editEmp.getRoleID() == 0}">管理员</option>
             </select>
           </div>
+          <div class="input-box">
+            <span class="details">密码</span>
+            <select class="choose" name="password">
+              <option class="options" th:value="${editEmp.getPassword()}" th:selected="1 == 1">无需重置</option>
+              <option class="options" th:value="${encoder.encode('123456')}">需要重制（默认初始密码为123456）</option>
+            </select>
+          </div>
         </div>
         <div class="gender-details">
           <input type="radio" name="gender" id="dot-1" th:checked="${editEmp.getGender() == 1}">
@@ -92,6 +99,7 @@
       alert("部门不能为空");
     }
     let departmentID = formData.get('did');
+    let password = formData.get('password');
 
     let genderRadioButtons = document.getElementsByName('gender');
     let gender;
@@ -108,7 +116,7 @@
       fullName: fullName,
       email: email,
       departmentID: departmentID,
-      password: "000",
+      password: password,
       gender: gender,
       roleID: roleID
     };
