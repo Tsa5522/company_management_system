@@ -49,4 +49,8 @@
     <update id="editPassword">
         UPDATE employee SET password = #{password} WHERE id = #{id}
     </update>
+    <select id="findUserByDepartment" resultType="com.management.CompanyManagementSystem.Entity.Employee">
+        SELECT * FROM employee
+        WHERE departmentID = #{departmentID};
+    </select>
 </mapper>

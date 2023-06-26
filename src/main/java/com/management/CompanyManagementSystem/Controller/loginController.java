@@ -36,6 +36,7 @@ public class loginController {
         Employee employee = employeeService.findUserByEmail(auth.getName());
         model.addAttribute("fullName", employee.getFullName());
         model.addAttribute("department",departmentService.findDepartment(employee));
+        model.addAttribute("departments", departmentService.findAll());
         return "index";
     }
 

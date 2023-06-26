@@ -5,6 +5,7 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -14,11 +15,43 @@
         </div>
         <div class="main">
             <div th:insert="~{common :: topbar}"></div>
+            <!-- Add Charts -->
+            <div class="graphBox">
+                <div class="box">
+                    <input type="hidden" class="department-id" data-id="0" th:value="${departments[0].getDepartmentID()}">
+                    <input type="hidden" class="department-name" data-id="0" th:value="${departments[0].getDName()}">
+
+                    <input type="hidden" class="department-id" data-id="1" th:value="${departments[1].getDepartmentID()}">
+                    <input type="hidden" class="department-name" data-id="1" th:value="${departments[1].getDName()}">
+                    <input type="hidden" class="department-id" data-id="2" th:value="${departments[2].getDepartmentID()}">
+                    <input type="hidden" class="department-name" data-id="2" th:value="${departments[2].getDName()}">
+                    <input type="hidden" class="department-id" data-id="3" th:value="${departments[3].getDepartmentID()}">
+                    <input type="hidden" class="department-name" data-id="3" th:value="${departments[3].getDName()}">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="box">
+                    <canvas id="earning"></canvas>
+                </div>
+            </div>
+            <!--Add to-do list-->
+            <div class="todoList">
+                <div class="box">
+                    <div id="myDIV" class="header">
+                        <h2>待办事项清单</h2>
+                        <input type="text" id="todoInput" placeholder="待办事项" class="input">
+                        <span class="addBtn">加入</span>
+                    </div>
+
+                    <ul id="myUL" class="todoListItems">
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript">
         function toggleMenu(){
             let navbar = document.querySelector('.navbar');
@@ -27,6 +60,114 @@
             main.classList.toggle('active');
             navbar.classList.toggle('active');
         }
+        // On page load, load tasks from localStorage
+        window.onload = function() {
+            var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            for(var i = 0; i < tasks.length; i++) {
+                createNewTask(tasks[i]);
+            }
+        };
+
+        // Function to create new task element
+        function createNewTask(task) {
+            var li = document.createElement("li");
+            var t = document.createTextNode(task);
+            li.appendChild(t);
+            document.getElementById("myUL").appendChild(li);
+            document.getElementById("todoInput").value = "";
+
+            var span = document.createElement("SPAN");
+            var txt = document.createTextNode("X");
+            span.className = "close";
+            span.appendChild(txt);
+            li.appendChild(span);
+
+            span.onclick = function() {
+                var div = this.parentElement;
+                div.remove();
+                var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                var index = tasks.indexOf(task);
+                tasks.splice(index, 1);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+        }
+
+        // Function to add new items
+        function newElement() {
+            var inputValue = document.getElementById("todoInput").value;
+            if (inputValue.trim() === '') {
+                alert("You must write something!");
+            } else {
+                createNewTask(inputValue);
+
+                // Save the new task in localStorage
+                var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                tasks.push(inputValue);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+        }
+
+        document.querySelector('.addBtn').addEventListener('click', newElement);
+
+        document.querySelector('.todoListItems').addEventListener('click', function(ev) {
+            if (ev.target.tagName === 'LI') {
+                ev.target.classList.toggle('checked');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const departments = Array.from(document.querySelectorAll('.department-id')).map((deptIdEl) => {
+                const id = deptIdEl.value;
+                const name = document.querySelector(`.department-name[data-id="${deptIdEl.getAttribute('data-id')}"]`).value;
+
+                return { id, name };
+            });
+
+            const data = {
+                labels: departments.map(dept => dept.name),
+                datasets: [{
+                    label: '人数',
+                    data: [],
+                    backgroundColor: departments.map(() => `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.2)`),
+                    borderColor: 'rgb(100,149,237,1)',
+                    borderWidth: 1
+                }]
+            };
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+
+            const chart = new Chart(ctx, {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        position: 'right',
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                const dataset = data.datasets[tooltipItem.datasetIndex];
+                                const currentValue = dataset.data[tooltipItem.index];
+                                const currentLabel = data.labels[tooltipItem.index];
+                                return currentLabel + ": " + currentValue;
+                            }
+                        }
+                    }
+                }
+            });
+
+            Promise.all(departments.map(dept => fetch(`/charts/employeeCount/${dept.id}`).then(response => response.json())))
+                .then(counts => {
+                    data.datasets[0].data = counts;
+                    chart.update();
+                });
+        });
+
+
+
     </script>
 </body>
 </html>

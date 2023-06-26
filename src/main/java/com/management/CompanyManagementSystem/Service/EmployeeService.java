@@ -59,6 +59,13 @@ public class EmployeeService{
     public void editPassword(Employee emp) {
         employeeMapper.editPassword(emp.getPassword(), emp.getId());
     }
+    public List<Employee> findEmpByDepartment(int departmentID) {
+        return employeeMapper.findUserByDepartment(departmentID);
+    }
+    public int getEmployeeCountByDepartment(int departmentID) {
+        List<Employee> employeeList = findEmpByDepartment(departmentID);
+        return employeeList.size();
+    }
 }
 
 
