@@ -12,7 +12,7 @@
     <ul>
       <li>
         <a href="/index">
-          <span class="icon"><ion-icon name="logo-apple"></ion-icon></span>
+          <span class="icon"><ion-icon name="bus"></ion-icon></span>
           <span class="title" style="font-size: 1.5em;font-weight: 500;">我的管理系统</span>
         </a>
       </li>
@@ -41,7 +41,7 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="/settings">
           <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
           <span class="title">设置</span>
         </a>
@@ -63,20 +63,20 @@
 <nav class="topbar" th:fragment="topbar">
   <!-- Your topbar content here -->
   <div class="topbar">
-    <!-- search -->
-<!--    <div class="search">-->
-<!--      <label>-->
-<!--        <input type="text" placeholder="搜索">-->
-<!--        <ion-icon name="search-outline"></ion-icon>-->
-<!--      </label>-->
-<!--    </div>-->
-    <!-- userImg -->
     <div class="profile">
       <h3 th:text="${fullName + '-' + department}"></h3>
       <div class="user">
         <img src="/img/civilization5_4Kwallpaper.jpg">
       </div>
     </div>
+    <!-- search -->
+    <!--    <div class="search">-->
+    <!--      <label>-->
+    <!--        <input type="text" placeholder="搜索">-->
+    <!--        <ion-icon name="search-outline"></ion-icon>-->
+    <!--      </label>-->
+    <!--    </div>-->
+    <!-- userImg -->
   </div>
 </nav>
 

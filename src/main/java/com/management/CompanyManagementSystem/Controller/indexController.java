@@ -97,9 +97,9 @@ public class indexController {
 
     @GetMapping("/forgotPassword")
     public String changePassword() {
-        return "changePassword";
+        return "forgotPassword";
     }
-    @GetMapping("/password")
+    @GetMapping("/settings/password")
     public String passwordSetting(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Employee employee = employeeService.findUserByEmail(auth.getName());
@@ -107,6 +107,18 @@ public class indexController {
         model.addAttribute("fullName", employee.getFullName());
         model.addAttribute("department",departmentService.findDepartment(employee));
         model.addAttribute("encoder",passwordEncoder);
-        return "password";
+        return "changePassword";
+    }
+    @GetMapping("/settings")
+    public String getSettings(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("currentEmp", employee);
+        model.addAttribute("fullName", employee.getFullName());
+        model.addAttribute("department",departmentService.findDepartment(employee));
+        model.addAttribute("encoder",passwordEncoder);
+        Collection<Department> departments = departmentService.findAll();
+        model.addAttribute("departments", departments);
+        return "settings";
     }
 }

@@ -60,19 +60,21 @@
             main.classList.toggle('active');
             navbar.classList.toggle('active');
         }
-        // On page load, load tasks from localStorage
+
         window.onload = function() {
             var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
             for(var i = 0; i < tasks.length; i++) {
-                createNewTask(tasks[i]);
+                createNewTask(tasks[i].text, tasks[i].checked);
             }
         };
 
-        // Function to create new task element
-        function createNewTask(task) {
+        function createNewTask(taskText, taskChecked) {
             var li = document.createElement("li");
-            var t = document.createTextNode(task);
+            var t = document.createTextNode(taskText);
             li.appendChild(t);
+            if(taskChecked){
+                li.classList.add('checked');
+            }
             document.getElementById("myUL").appendChild(li);
             document.getElementById("todoInput").value = "";
 
@@ -86,23 +88,22 @@
                 var div = this.parentElement;
                 div.remove();
                 var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-                var index = tasks.indexOf(task);
+                var index = tasks.findIndex(task => task.text === taskText);
                 tasks.splice(index, 1);
                 localStorage.setItem('tasks', JSON.stringify(tasks));
             }
         }
 
-        // Function to add new items
         function newElement() {
             var inputValue = document.getElementById("todoInput").value;
             if (inputValue.trim() === '') {
-                alert("You must write something!");
+                alert("输入内容不能为空");
             } else {
-                createNewTask(inputValue);
+                createNewTask(inputValue, false);
 
                 // Save the new task in localStorage
                 var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-                tasks.push(inputValue);
+                tasks.push({ text: inputValue, checked: false });
                 localStorage.setItem('tasks', JSON.stringify(tasks));
             }
         }
@@ -112,6 +113,14 @@
         document.querySelector('.todoListItems').addEventListener('click', function(ev) {
             if (ev.target.tagName === 'LI') {
                 ev.target.classList.toggle('checked');
+                // Update the task checked status in localStorage
+                var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+                var taskText = ev.target.textContent;
+                var task = tasks.find(task => task.text === taskText.substring(0, taskText.length - 1));
+                if (task) {
+                    task.checked = ev.target.classList.contains('checked');
+                    localStorage.setItem('tasks', JSON.stringify(tasks));
+                }
             }
         });
 

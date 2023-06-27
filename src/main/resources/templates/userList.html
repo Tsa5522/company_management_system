@@ -12,44 +12,85 @@
         <div th:insert="~{common :: navbar}"></div>
         <div class="toggle" onclick="toggleMenu()"></div>
         <div class="main">
-            <div th:insert="~{common :: topbar}"></div>
+            <div class="topbar">
+                <div class="profile">
+                    <h3 th:text="${fullName + '-' + department}"></h3>
+                    <div class="user">
+                        <img src="/img/civilization5_4Kwallpaper.jpg">
+                    </div>
+                </div>
+<!--                 search -->
+                    <div class="search">
+                        <label>
+                            <input id="search-input" type="text" placeholder="搜索" onkeyup="searchFunction()">
+                            <ion-icon name="search-outline"></ion-icon>
+                        </label>
+                    </div>
+            </div>
             <div class="table-users">
-                <table>
-                    <caption>员工列表</caption>
-                    <tr>
-                        <th>ID</th>
-                        <th>姓名</th>
-                        <th>性别</th>
-                        <th>邮箱</th>
-                        <th>部门</th>
-                        <th>权限</th>
-                        <th>操作</th>
-                    </tr>
-
-                    <tr th:each="emp:${employees}">
-<!--                        <td><img src="/img/civilization5_4Kwallpaper.jpg"></td>-->
-                        <td th:text="${emp.getId()}" id="empId"></td>
-                        <td th:text="${emp.getFullName}"></td>
-                        <td th:text="${emp.getGenderString()}"></td>
-                        <td th:text="${emp.getEmail()}"></td>
-                        <td th:text="${emp.getDepartmentString()}"></td>
-                        <td th:text="${emp.getRoleString()}"></td>
-                        <td><button class="messageBtn" th:data-id="${emp.getId()}">发送信息</button>
-                            <button class="editBtn adminButton" th:data-id="${emp.getId()}">修改</button>
-                            <button class="deleteBtn adminButton" th:data-id="${emp.getId()}">删除</button>
-                        </td>
-                    </tr>
+                <table id="theTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>邮箱</th>
+                            <th>部门</th>
+                            <th>权限</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="emp:${employees}">
+                            <!--                        <td><img src="/img/civilization5_4Kwallpaper.jpg"></td>-->
+                            <td th:text="${emp.getId()}" id="empId"></td>
+                            <td th:text="${emp.getFullName}"></td>
+                            <td th:text="${emp.getGenderString()}"></td>
+                            <td th:text="${emp.getEmail()}"></td>
+                            <td th:text="${emp.getDepartmentString()}"></td>
+                            <td th:text="${emp.getRoleString()}"></td>
+                            <td><button class="messageBtn" th:data-id="${emp.getId()}">发送信息</button>
+                                <button class="editBtn adminButton" th:data-id="${emp.getId()}">修改</button>
+                                <button class="deleteBtn adminButton" th:data-id="${emp.getId()}">删除</button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <button class="addUserBtn adminButton">添加员工</button>
             </div>
         </div>
-    </div>
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
     <script type="text/javascript">
+        function searchFunction() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("search-input");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("theTable");
+            var tbody = table.getElementsByTagName("tbody");
+            tr = tbody[0].getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                var tds = tr[i].getElementsByTagName("td");
+                var found = false;
+                for (j = 0; j < tds.length; j++) {
+                    td = tds[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                tr[i].style.display = found ? "" : "none";
+            }
+        }
+
+
         window.onload = function() {
             // Fetch the current user's role when the page loads
             fetch('/user/currentRole')

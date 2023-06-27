@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/" />
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+  <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+  <link href="../static/css/settings.css" th:href="@{/css/settings.css}" rel="stylesheet">
+  <link href="../static/css/addUser.css" th:href="@{/css/addUser.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div th:insert="~{common :: navbar}"></div>
+  <div class="toggle" onclick="toggleMenu()"></div>
+  <div class="main">
+    <div class="topbar">
+      <div class="profile">
+        <h3 th:text="${fullName + '-' + department}"></h3>
+        <div class="user">
+          <img src="/img/civilization5_4Kwallpaper.jpg">
+        </div>
+      </div>
+      <div class="dropdown">
+        <button onclick="toggleDropdown()" class="dropbtn">Profile
+          <ion-icon name="arrow-down-outline"></ion-icon>
+        </button>
+        <div id="dropdown-content" class="dropdown-content">
+          <a href="/settings/password">Password</a>
+          <a href="#" onclick="loadContent('Message')">Message</a>
+          <a href="#" onclick="loadContent('Plan')">Plan</a>
+        </div>
+      </div>
+    </div>
+    <div id="content">
+      <div class="content">
+        <div class="title">修改我的信息</div>
+        <form action="#">
+          <div class="user-details">
+            <input type="hidden" name="id" placeholder="" required th:value="${currentEmp.getId()}">
+            <div class="input-box">
+              <span class="details">姓名</span>
+              <input type="text" name="name" placeholder="" required th:value="${currentEmp.getFullName()}">
+            </div>
+            <div class="input-box">
+              <span class="details">邮箱</span>
+              <input type="text" name="email" placeholder="" required th:value="${currentEmp.getEmail()}">
+            </div>
+            <div class="input-box">
+              <span class="details">所属部门</span>
+              <select class="choose" name="did">
+                <option class="options" value="-1">无</option>
+                <option class="options" th:each="dept:${departments}" th:text="${dept.getDName()}"
+                        th:value="${dept.getDepartmentID()}" th:selected="${dept.getDepartmentID() == currentEmp.getDepartmentID()}"></option>
+              </select>
+            </div>
+            <div class="input-box">
+              <input type="hidden" name="roleID" th:value="${currentEmp.getRoleID()}">
+            </div>
+            <div class="input-box">
+              <input type="hidden" name="password" th:value="${currentEmp.getPassword()}">
+            </div>
+          </div>
+          <div class="gender-details">
+            <input type="radio" name="gender" id="dot-1" th:checked="${currentEmp.getGender() == 1}">
+            <input type="radio" name="gender" id="dot-2" th:checked="${currentEmp.getGender() == 0}">
+            <span class="gender-title">性别</span>
+            <div class="category">
+              <label for="dot-1">
+                <span class="dot one"></span>
+                <span class="gender">男</span>
+              </label>
+              <label for="dot-2">
+                <span class="dot two"></span>
+                <span class="gender">女</span>
+              </label>
+            </div>
+          </div>
+          <div class="button">
+            <input type="submit" value="保存新信息">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script type="text/javascript">
+  function toggleMenu(){
+    let navbar = document.querySelector('.navbar');
+    let main = document.querySelector('.main');
+    main.classList.toggle('active');
+    navbar.classList.toggle('active');
+  }
+  function toggleDropdown() {
+    document.getElementById("dropdown-content").classList.toggle("show");
+  }
+
+  function loadContent(option) {
+    var contentDiv = document.getElementById("content");
+    if (option == "Profile") {
+      contentDiv.innerHTML = "Profile Settings";
+      // Load profile settings
+    } else if (option == "Password") {
+      contentDiv.innerHTML = "Password Settings";
+      // Load password settings
+    } else if (option == "Message") {
+      contentDiv.innerHTML = "Message Settings";
+      // Load message settings
+    } else if (option == "Plan") {
+      contentDiv.innerHTML = "Plan Settings";
+      // Load plan settings
+    }
+  }
+  document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // This will prevent the default form submission behavior
+
+    const formData = new FormData(event.target);
+
+    // Get form data
+    let id = formData.get('id');
+    let fullName = formData.get('name');
+    let email = formData.get('email');
+    if (formData.get('did') === -1){
+      alert("部门不能为空");
+    }
+    let departmentID = formData.get('did');
+    let password = formData.get('password');
+
+    let genderRadioButtons = document.getElementsByName('gender');
+    let gender;
+    for(let i = 0; i < genderRadioButtons.length; i++) {
+      if(genderRadioButtons[i].checked) {
+        gender = genderRadioButtons[i].id === 'dot-1' ? 1 : 0;
+        break;
+      }
+    }
+    let roleID = formData.get('roleID');
+
+    let newEmp = {
+      id: id,
+      fullName: fullName,
+      email: email,
+      departmentID: departmentID,
+      password: password,
+      gender: gender,
+      roleID: roleID
+    };
+
+    // Now we will use Fetch API to send a POST request to the /addUser endpoint
+    fetch('/user/editUser', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newEmp),
+    })
+            .then(response => {
+              if (response.ok) {
+                alert("修改成功！");
+                location.reload();
+              } else {
+                // Refresh the page if the response is not ok (failed)
+                alert("请求失败请稍后重试");
+                location.reload();
+              }
+            })
+            .then(data => {
+              // If response was successful, log the response
+              console.log('Success:', data);
+            })
+            .catch((error) => {
+              // If there was an error, log the error
+              console.error('Error:', error);
+            });
+  });
+
+</script>
+</body>
+</html>
