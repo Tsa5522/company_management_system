@@ -79,6 +79,7 @@
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
   <script type="text/javascript">
+    // 侧边栏的按钮的js
     function toggleMenu(){
       let navbar = document.querySelector('.navbar');
       let main = document.querySelector('.main');
@@ -86,12 +87,13 @@
       navbar.classList.toggle('active');
     }
 
+    // 增加用户的js
     document.querySelector('form').addEventListener('submit', function(event) {
-      event.preventDefault(); // This will prevent the default form submission behavior
+      event.preventDefault();
 
       const formData = new FormData(event.target);
 
-      // Get form data
+      // 获取表信息
       let fullName = formData.get('name');
       let email = formData.get('email');
       if (formData.get('did') === -1){
@@ -119,7 +121,7 @@
         roleID: roleID
       };
 
-      // Now we will use Fetch API to send a POST request to the /addUser endpoint
+      //fetch api
       fetch('/user/addUser', {
         method: 'POST',
         headers: {
@@ -132,17 +134,16 @@
                   alert("注册成功！");
                   window.location.href = '/allEmp';
                 } else {
-                  // Refresh the page if the response is not ok (failed)
+                  //如果失败刷新页面
                   alert("注册失败请稍后重试");
                   location.reload();
                 }
               })
               .then(data => {
-                // If response was successful, log the response
+                // 在console里log一下信息
                 console.log('Success:', data);
               })
               .catch((error) => {
-                // If there was an error, log the error
                 console.error('Error:', error);
               });
     });

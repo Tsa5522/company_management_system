@@ -6,13 +6,12 @@
   <title>component</title>
   <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
 <body>
-
+<!--  所有页面的侧边栏都是一样的都在这里-->
   <nav class="navbar" th:fragment="navbar">
-    <!-- Your navbar content here -->
     <ul>
       <li>
         <a href="/index">
-          <span class="icon"><ion-icon name="bus"></ion-icon></span>
+          <span class="icon"><ion-icon name="logo-alipay"></ion-icon></span>
           <span class="title" style="font-size: 1.5em;font-weight: 500;">我的管理系统</span>
         </a>
       </li>
@@ -35,9 +34,9 @@
         </a>
       </li>
       <li>
-        <a href="#">
-          <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
-          <span class="title">帮助</span>
+        <a href="/plan">
+          <span class="icon"><ion-icon name="clipboard-outline"></ion-icon></span>
+          <span class="title">计划</span>
         </a>
       </li>
       <li>
@@ -47,9 +46,9 @@
         </a>
       </li>
       <li>
-        <a href="/password">
-          <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
-          <span class="title">密码</span>
+        <a href="#">
+          <span class="icon"><ion-icon name="recording-outline"></ion-icon></span>
+          <span class="title">记录</span>
         </a>
       </li>
       <li>
@@ -60,15 +59,17 @@
       </li>
     </ul>
   </nav>
+<!--顶栏-->
 <nav class="topbar" th:fragment="topbar">
-  <!-- Your topbar content here -->
   <div class="topbar">
     <div class="profile">
       <h3 th:text="${fullName + '-' + department}"></h3>
       <div class="user">
+<!--        用户头像功能未加入，这是随便一张图片-->
         <img src="/img/civilization5_4Kwallpaper.jpg">
       </div>
     </div>
+<!--    搜索功能我只加在了用户列表页面-->
     <!-- search -->
     <!--    <div class="search">-->
     <!--      <label>-->

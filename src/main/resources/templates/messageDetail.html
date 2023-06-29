@@ -23,8 +23,6 @@
       <div class="button">
         <input type="button" name="cancel" value="返回" onclick="location.href='/inbox'">
       </div>
-
-      <!-- Messages will be appended here -->
     </div>
   </div>
 </div>
@@ -44,7 +42,7 @@
   fetch(url)
           .then(response => response.json())
           .then(message => {
-            console.log(message);  // Add this line to inspect the 'message' object
+            console.log(message);
             const detailsDiv = document.getElementById('message-details');
 
             detailsDiv.innerHTML = `

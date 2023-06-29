@@ -79,6 +79,7 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <script type="text/javascript">
+  // 侧边栏js
   function toggleMenu(){
     let navbar = document.querySelector('.navbar');
     let main = document.querySelector('.main');
@@ -87,11 +88,11 @@
   }
 
   document.querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault(); // This will prevent the default form submission behavior
+    event.preventDefault();
 
     const formData = new FormData(event.target);
 
-    // Get form data
+    //信息获取，管理员修改员工信息与管理员添加注册新员工是基本相同的代码
     let id = formData.get('id');
     let fullName = formData.get('name');
     let email = formData.get('email');
@@ -121,7 +122,7 @@
       roleID: roleID
     };
 
-    // Now we will use Fetch API to send a POST request to the /addUser endpoint
+    //fetch api
     fetch('/user/editUser', {
       method: 'PUT',
       headers: {
@@ -134,17 +135,14 @@
                 alert("修改成功！");
                 window.location.href = '/allEmp';
               } else {
-                // Refresh the page if the response is not ok (failed)
                 alert("请求失败请稍后重试");
                 location.reload();
               }
             })
             .then(data => {
-              // If response was successful, log the response
               console.log('Success:', data);
             })
             .catch((error) => {
-              // If there was an error, log the error
               console.error('Error:', error);
             });
   });

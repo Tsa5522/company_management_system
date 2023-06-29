@@ -53,6 +53,7 @@ body {
     overflow: hidden; /* Hide overflowed content */
     text-overflow: ellipsis; /* Show '...' when content overflows */
     white-space: nowrap; /* Keep cell content on one line */
+    cursor: pointer; /* Change cursor display to let user click on message */
 }
 
 #inbox-list {
@@ -60,9 +61,6 @@ body {
     table-layout: fixed; /* Fixed layout will prevent cell widths from varying */
 }
 
-.inbox-title {
-    cursor: pointer; /* Change cursor to pointer when over message title */
-}
 .inbox-item .inbox-message {
     max-width: 70%;
 }

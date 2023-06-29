@@ -48,6 +48,7 @@
     main.classList.toggle('active');
     navbar.classList.toggle('active');
   }
+
   document.getElementById('message-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const fromUser = document.getElementById('fromID').value;
@@ -69,16 +70,14 @@
         alert("消息发送成功！");
         window.location.href = '/allEmp';
       } else {
-        // Refresh the page if the response is not ok (failed)
+
         alert("消息发送失败请稍后重试");
         location.reload();
       }
     }).then(data => {
-      // If response was successful, log the response
       console.log('Success:', data);
     })
             .catch((error) => {
-              // If there was an error, log the error
               console.error('Error:', error);
             });
   });

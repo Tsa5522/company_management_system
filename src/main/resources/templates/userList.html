@@ -42,6 +42,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="emp:${employees}">
+<!--                            用户头像没有-->
                             <!--                        <td><img src="/img/civilization5_4Kwallpaper.jpg"></td>-->
                             <td th:text="${emp.getId()}" id="empId"></td>
                             <td th:text="${emp.getFullName}"></td>
@@ -92,11 +93,11 @@
 
 
         window.onload = function() {
-            // Fetch the current user's role when the page loads
+            //读取当前用户的权限
             fetch('/user/currentRole')
                 .then(response => response.json())
                 .then(data => {
-                    // If the user is not an admin, hide the edit and delete buttons
+                    //如果用户不是管理员，隐藏修改和删除的按钮
                     if (data.role !== 'ROLE_ADMIN') {
                         const adminButtons = document.querySelectorAll('.adminButton');
                         adminButtons.forEach(button => {
@@ -116,7 +117,6 @@
 
         document.querySelectorAll('.messageBtn').forEach(function(button) {
             button.addEventListener('click', function() {
-                // message to the person, on the message page it will automatically
                 var id = this.dataset.id;
                 window.location.href = '/inbox/send/' + id;
             });
@@ -127,7 +127,6 @@
             button.addEventListener('click', function() {
                 console.log('Edit button clicked');
                 var id = this.dataset.id;
-                // Replace with code to edit the user
                 window.location.href = '/allEmp/editUser/' + id;
             });
         });
@@ -135,17 +134,14 @@
         document.querySelectorAll('.deleteBtn').forEach(function(button) {
             button.addEventListener('click', function() {
                 console.log('Delete button clicked');
-                // Replace with code to delete the user
                 var id = this.dataset.id;
 
-                // Send a DELETE request to the server
                 if (confirm('确认要删除此用户？（操作不可撤回）')) {
                     fetch('/user/deleteEmp/' + id, {
                         method: 'DELETE',
                     })
                         .then(function(response) {
                             if(response.ok) {
-                                // If the server responds with a successful status, reload the page
                                 location.reload();
                             } else {
                                 console.log('Error: ' + response.statusText);
@@ -160,7 +156,6 @@
 
         document.querySelectorAll('.addUserBtn').forEach(function(button) {
             button.addEventListener('click', function() {
-            // Redirect to the Add User page
             window.location.href = '/allEmp/addUser'})
         });
     </script>

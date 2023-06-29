@@ -121,4 +121,16 @@ public class indexController {
         model.addAttribute("departments", departments);
         return "settings";
     }
+    @GetMapping("/plan")
+    public String getPlan(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("currentEmp", employee);
+        model.addAttribute("fullName", employee.getFullName());
+        model.addAttribute("department",departmentService.findDepartment(employee));
+        model.addAttribute("encoder",passwordEncoder);
+        Collection<Department> departments = departmentService.findAll();
+        model.addAttribute("departments", departments);
+        return "plan";
+    }
 }

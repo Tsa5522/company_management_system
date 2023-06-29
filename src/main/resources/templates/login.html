@@ -1,3 +1,4 @@
+<!--template originally from openTutorial (I bought your patreon lol)-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
         <div class="BlueBg">
             <div class="box signIn">
                 <h2>已有账号?</h2>
-                <button class="signinBtn">登陆</button>
+                <button class="signinBtn">登录</button>
             </div>
             <div class="box signUp">
                 <h2>没有账号?</h2>
@@ -24,6 +25,7 @@
                         <input type="text" id="loginName" name="username" placeholder="邮箱" required>
                         <input type="password" id="loginPassword" name="password" placeholder="密码" required>
                         <input type="submit" name="login" value="登陆">
+<!--                        跳转忘记密码的页面-->
                         <a href="/forgotPassword" class="forgot">忘记密码</a>
                     </form>
                 </div>
@@ -49,22 +51,23 @@
             console.log(urlParams);
             console.log(error);
 
+            //显示登陆错误
             if (!error) {
-                // display the error message
                 const errorMessage = document.createElement('p');
                 errorMessage.textContent = "用户名或密码错误";
                 errorMessage.style.color = 'red';
                 document.querySelector('#loginForm').prepend(errorMessage);
             }
 
+            //这个是登陆和注册两边切换的js
             const signinBtn = document.querySelector('.signinBtn');
             const signupBtn = document.querySelector('.signupBtn');
             const formBx = document.querySelector('.formBx');
             const body = document.querySelector('body')
 
             signinBtn.onclick = function () {
-                formBx.classList.remove('active')
-                body.classList.remove('active')
+                formBx.classList.remove('active') //active的时候显示的是注册的表
+                body.classList.remove('active') //显示注册的颜色以及图标
             }
 
             signupBtn.onclick = function () {
@@ -73,6 +76,7 @@
             }
         });
 
+        //注册表提交，登录在securityConfiguration里面
         document.getElementById('registerForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
@@ -81,7 +85,7 @@
             let password = document.getElementById('password').value;
             let confirmPassword = document.getElementById('confirmPassword').value;
 
-            // Password and confirm password validation
+            //确保确认密码和密码一致
             if (password !== confirmPassword) {
                 displayErrorMessage('请再次确认两次输入密码一致');
                 return;

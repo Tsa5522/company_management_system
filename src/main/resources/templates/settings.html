@@ -21,13 +21,13 @@
         </div>
       </div>
       <div class="dropdown">
-        <button onclick="toggleDropdown()" class="dropbtn">Profile
+        <button onclick="toggleDropdown()" class="dropbtn">个人信息
           <ion-icon name="arrow-down-outline"></ion-icon>
         </button>
         <div id="dropdown-content" class="dropdown-content">
-          <a href="/settings/password">Password</a>
-          <a href="#" onclick="loadContent('Message')">Message</a>
-          <a href="#" onclick="loadContent('Plan')">Plan</a>
+          <a href="/settings/password">密码</a>
+          <a href="#" onclick="loadContent('Message')">消息</a>
+          <a href="#" onclick="loadContent('Plan')">计划</a>
         </div>
       </div>
     </div>
@@ -97,28 +97,25 @@
     document.getElementById("dropdown-content").classList.toggle("show");
   }
 
+  //没有用这个其实
   function loadContent(option) {
     var contentDiv = document.getElementById("content");
     if (option == "Profile") {
       contentDiv.innerHTML = "Profile Settings";
-      // Load profile settings
     } else if (option == "Password") {
       contentDiv.innerHTML = "Password Settings";
-      // Load password settings
     } else if (option == "Message") {
       contentDiv.innerHTML = "Message Settings";
-      // Load message settings
     } else if (option == "Plan") {
       contentDiv.innerHTML = "Plan Settings";
-      // Load plan settings
     }
   }
-  document.querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault(); // This will prevent the default form submission behavior
 
+
+  document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault();
     const formData = new FormData(event.target);
 
-    // Get form data
     let id = formData.get('id');
     let fullName = formData.get('name');
     let email = formData.get('email');
@@ -148,7 +145,6 @@
       roleID: roleID
     };
 
-    // Now we will use Fetch API to send a POST request to the /addUser endpoint
     fetch('/user/editUser', {
       method: 'PUT',
       headers: {
@@ -161,17 +157,14 @@
                 alert("修改成功！");
                 location.reload();
               } else {
-                // Refresh the page if the response is not ok (failed)
                 alert("请求失败请稍后重试");
                 location.reload();
               }
             })
             .then(data => {
-              // If response was successful, log the response
               console.log('Success:', data);
             })
             .catch((error) => {
-              // If there was an error, log the error
               console.error('Error:', error);
             });
   });

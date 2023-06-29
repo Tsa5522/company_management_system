@@ -11,7 +11,6 @@
     <div class="container">
         <div th:insert="~{common :: navbar}"></div>
         <div class="toggle" th:fragment="toggle" onclick="toggleMenu()">
-            <!-- Your toggle content here -->
         </div>
         <div class="main">
             <div th:insert="~{common :: topbar}"></div>
@@ -61,6 +60,7 @@
             navbar.classList.toggle('active');
         }
 
+        //用网页暂时存了用户以前写的待办事项，但是待办事项是没有入数据库的
         window.onload = function() {
             var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
             for(var i = 0; i < tasks.length; i++) {
@@ -68,16 +68,19 @@
             }
         };
 
+        //待办事项在表里的显示
         function createNewTask(taskText, taskChecked) {
             var li = document.createElement("li");
             var t = document.createTextNode(taskText);
             li.appendChild(t);
+            //如果完成了就显示划掉的状态，具体在css里改的样式
             if(taskChecked){
                 li.classList.add('checked');
             }
             document.getElementById("myUL").appendChild(li);
             document.getElementById("todoInput").value = "";
 
+            //删除待办事项的按钮
             var span = document.createElement("SPAN");
             var txt = document.createTextNode("X");
             span.className = "close";
@@ -94,6 +97,7 @@
             }
         }
 
+        //新建代办事项
         function newElement() {
             var inputValue = document.getElementById("todoInput").value;
             if (inputValue.trim() === '') {
@@ -101,7 +105,7 @@
             } else {
                 createNewTask(inputValue, false);
 
-                // Save the new task in localStorage
+                // 存到localStorage里
                 var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
                 tasks.push({ text: inputValue, checked: false });
                 localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -113,7 +117,7 @@
         document.querySelector('.todoListItems').addEventListener('click', function(ev) {
             if (ev.target.tagName === 'LI') {
                 ev.target.classList.toggle('checked');
-                // Update the task checked status in localStorage
+                // 如果用户点击一次当前事项就会显示一个划掉或者取消划掉的样式
                 var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
                 var taskText = ev.target.textContent;
                 var task = tasks.find(task => task.text === taskText.substring(0, taskText.length - 1));
@@ -124,6 +128,7 @@
             }
         });
 
+        //这个是图标的display
         document.addEventListener('DOMContentLoaded', function() {
 
             const departments = Array.from(document.querySelectorAll('.department-id')).map((deptIdEl) => {
@@ -138,6 +143,7 @@
                 datasets: [{
                     label: '人数',
                     data: [],
+                    //颜色不知道什么好看就随机了，每次刷新都不一样的哈哈哈
                     backgroundColor: departments.map(() => `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.2)`),
                     borderColor: 'rgb(100,149,237,1)',
                     borderWidth: 1
@@ -147,7 +153,7 @@
             const ctx = document.getElementById('myChart').getContext('2d');
 
             const chart = new Chart(ctx, {
-                type: 'pie',
+                type: 'pie', //饼图的样式
                 data: data,
                 options: {
                     responsive: true,

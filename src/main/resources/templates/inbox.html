@@ -19,7 +19,7 @@
             <table id="inbox-list">
             </table>
 
-            <!-- Messages will be appended here -->
+            <!-- 从数据库里读取信息放在这里 -->
         </div>
     </div>
 </div>
@@ -33,17 +33,16 @@
         main.classList.toggle('active');
         navbar.classList.toggle('active');
     }
-    // replace this URL with your endpoint
     const id = document.getElementById('id').value;
     const url = '/message/getMessages/' + id;
 
-    // fetch the messages
+    // fetch
     fetch(url)
         .then(response => response.json())
         .then(messages => {
             const inboxList = document.getElementById('inbox-list');
 
-            // Create table headers
+            // 这个是表的抬头
             const headerRow = document.createElement('tr');
             ['发件人', '收件人', '邮件名称', '发送时间'].forEach(headerText => {
                 const header = document.createElement('th');
@@ -52,7 +51,7 @@
             });
             inboxList.appendChild(headerRow);
 
-            // Loop through each message and append it to the list
+            // 把当前用户发出/收到的信息一条条加入表哥
             messages.forEach(message => {
                 console.log(message);
                 const listItem = document.createElement('tr');
@@ -70,8 +69,9 @@
                 const messageID = message.messageID;
                 titleEl.className = 'inbox-title';
                 titleEl.textContent = message.title;
-                // add event listener to show content when title is clicked
-                titleEl.addEventListener('click', function() {
+
+                // 点进每一条信息会显示具体内容
+                listItem.addEventListener('click', function() {
                     window.location.href = '/messageDetail/' + messageID;
                 });
 
