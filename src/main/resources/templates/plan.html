@@ -5,15 +5,21 @@
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
   <title>plan</title>
   <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+  <link href="../static/css/plan.css" th:href="@{/css/plan.css}" rel="stylesheet">
 </head>
 <body>
 <div class="container">
   <div th:insert="~{common :: navbar}"></div>
   <div class="toggle" th:fragment="toggle" onclick="toggleMenu()">
-    <!-- Your toggle content here -->
   </div>
   <div class="main">
     <div th:insert="~{common :: topbar}"></div>
+    <div class="timeline">
+      <div class="timeline-container" id="timeline-1">
+        <!-- The individual timeline blocks will go here -->
+
+      </div>
+    </div>
   </div>
 </div>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -27,6 +33,68 @@
     main.classList.toggle('active');
     navbar.classList.toggle('active');
   }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Fetch assignments when the document is ready
+    fetchAssignments();
+  });
+
+  function fetchAssignments() {
+    fetch('/assignments/getAll')
+            .then(response => response.json())
+            .then(assignments => {
+              // Once the assignments are loaded, we can display them
+              displayAssignments(assignments);
+            });
+  }
+
+  function displayAssignments(assignments) {
+    const container = document.getElementById('timeline-1');
+    assignments.forEach(assignment => {
+      const block = document.createElement('div');
+      block.className = 'timeline-block';
+
+      const step = document.createElement('span');
+      step.className = 'timeline-step';
+      step.innerHTML = '<ion-icon name="ellipse-outline"></ion-icon>';
+      block.appendChild(step);
+
+      const content = document.createElement('div');
+      content.className = 'timeline-content';
+
+      const title = document.createElement('h2');
+      title.textContent = assignment.assignmentName;
+      content.appendChild(title);
+
+      const description = document.createElement('p');
+      description.textContent = assignment.assignmentDescription;
+      content.appendChild(description);
+
+      const deadline = document.createElement('p');
+      deadline.textContent = '项目日期: ' + formatDate(assignment.assignmentDeadline);
+      content.appendChild(deadline);
+
+      const employeeList = document.createElement('ul');
+      assignment.employees.forEach(employee => {
+        const employeeItem = document.createElement('li');
+        employeeItem.textContent = employee.fullName;
+        employeeList.appendChild(employeeItem);
+      });
+      content.appendChild(employeeList);
+
+
+      block.appendChild(content);
+      container.appendChild(block);
+    });
+  }
+  function formatDate(epochTime) {
+    let date = new Date(epochTime);
+    return date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate();
+  }
+
+
+
+
 </script>
 </body>
 </html>

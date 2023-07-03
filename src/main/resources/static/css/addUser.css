@@ -29,6 +29,7 @@ body {
     font-weight: 500;
     position: relative;
 }
+/*下划线*/
 .content .title::before{
     content: "";
     position: absolute;
@@ -101,8 +102,7 @@ form .category label .dot{
     transition: all 0.3s ease;
 }
 #dot-1:checked ~ .category label .one,
-#dot-2:checked ~ .category label .two,
-#dot-3:checked ~ .category label .three{
+#dot-2:checked ~ .category label .two{
     background: #9b59b6;
     border-color: #d9d9d9;
 }

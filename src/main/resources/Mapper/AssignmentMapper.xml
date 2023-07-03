@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.CompanyManagementSystem.Mapper.AssignmentMapper">
+
+    <insert id="create" parameterType="com.management.CompanyManagementSystem.Entity.Assignment" useGeneratedKeys="true" keyProperty="AssignmentID">
+        INSERT INTO Assignments (AssignmentName, AssignmentDescription, AssignmentDeadline)
+        VALUES (#{AssignmentName}, #{AssignmentDescription}, #{AssignmentDeadline})
+    </insert>
+
+    <insert id="assignAssignment" parameterType="map">
+        INSERT INTO AssignmentUsers (AssignmentID, EmployeeID)
+        VALUES (#{AssignmentID}, #{EmployeeID})
+    </insert>
+    <select id="getAllAssignments" resultType="com.management.CompanyManagementSystem.Entity.Assignment">
+        SELECT *
+        FROM Assignments
+    </select>
+
+    <select id="findAssignmentsByEmployeeId" resultType="com.management.CompanyManagementSystem.Entity.Assignment" parameterType="Integer">
+        select *
+        from Assignments left join AssignmentUsers AU on Assignments.AssignmentID = AU.AssignmentID
+        where AU.EmployeeID = #{EmployeeID};
+    </select>
+</mapper>

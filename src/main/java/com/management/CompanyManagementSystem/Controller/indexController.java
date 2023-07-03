@@ -1,11 +1,14 @@
 package com.management.CompanyManagementSystem.Controller;
 
+import com.management.CompanyManagementSystem.Entity.Assignment;
 import com.management.CompanyManagementSystem.Entity.Department;
 import com.management.CompanyManagementSystem.Entity.Employee;
+import com.management.CompanyManagementSystem.Service.AssignmentService;
 import com.management.CompanyManagementSystem.Service.DepartmentService;
 import com.management.CompanyManagementSystem.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,11 +23,13 @@ public class indexController {
     private final EmployeeService employeeService;
     private final DepartmentService departmentService;
     private final PasswordEncoder passwordEncoder;
+    private final AssignmentService assignmentService;
     @Autowired
-    public indexController(EmployeeService employeeService, DepartmentService departmentService,PasswordEncoder passwordEncoder) {
+    public indexController(EmployeeService employeeService, DepartmentService departmentService, PasswordEncoder passwordEncoder, AssignmentService assignmentService) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
         this.passwordEncoder = passwordEncoder;
+        this.assignmentService = assignmentService;
     }
     @GetMapping("/allEmp")
     public String getEmployeeList(Model model) {

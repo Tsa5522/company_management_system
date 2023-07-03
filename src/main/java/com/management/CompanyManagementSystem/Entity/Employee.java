@@ -1,14 +1,20 @@
 package com.management.CompanyManagementSystem.Entity;
 
 import com.management.CompanyManagementSystem.Service.DepartmentService;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Employee {
+    @ManyToMany(mappedBy = "employees")
+    private Set<Assignment> assignments = new HashSet<>();
     private int id;
     private String fullName;
     private String password;
