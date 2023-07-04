@@ -26,8 +26,8 @@ body {
     position: relative;
     max-width: 1200px;
     margin: 0 auto;
-}
 
+}
 .timeline::after {
     content: '';
     position: absolute;
@@ -43,29 +43,17 @@ body {
     padding: 10px 40px;
     position: relative;
     background-color: inherit;
-    width: 50%;
+    width: 100%;
 }
 
 .timeline-block {
+    position: relative;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 6px;
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
-    position: relative;
     margin-bottom: 20px;
-}
-
-.timeline-block::after {
-    content: '';
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    right: -17px;
-    background-color: white;
-    border: 4px solid #ddd;
-    top: 15px;
-    border-radius: 50%;
-    z-index: 1;
+    width: 50%;
 }
 
 .timeline-step {
@@ -78,31 +66,40 @@ body {
     align-items: center;
     border-radius: 50%;
     font-size: 30px;
-    left: -16px;
-    top: 10px;
     z-index: 2;
 }
 
 .timeline-content {
-    margin-left: 60px;
+    margin-left: 70px;
+}
+.timeline-block:nth-child(odd) {
+    margin-left: 0;
+    margin-right: auto;
 }
 
 .timeline-block:nth-child(even) {
-    margin-left: 60%;
+    margin-left: 50%;
+    margin-right: 0;
+    justify-content: flex-start;
+}
+
+.timeline-block:nth-child(odd) .timeline-step {
+    left: -25px;
+}
+
+.timeline-block:nth-child(even) {
+    right: 0;
+    margin-right: 50px;
+    text-align: right;
 }
 
 .timeline-block:nth-child(even) .timeline-content {
+    margin-right: 70px;
     margin-left: 0;
 }
 
 .timeline-block:nth-child(even) .timeline-step {
-    left: auto;
-    right: -16px;
-}
-
-.timeline-block:nth-child(even)::after {
-    left: auto;
-    right: -17px;
+    right: -25px;
 }
 .button{
     height: 45px;

@@ -16,7 +16,6 @@
     <div th:insert="~{common :: topbar}"></div>
     <div class="timeline">
       <div class="timeline-container" id="timeline-1">
-        <!-- The individual timeline blocks will go here -->
 
       </div>
     </div>
@@ -53,9 +52,9 @@
 
   function displayAssignments(assignments) {
     const container = document.getElementById('timeline-1');
-    assignments.forEach(assignment => {
+    assignments.forEach((assignment, index) => {
       const block = document.createElement('div');
-      block.className = 'timeline-block';
+      block.className = index % 2 === 0 ? 'timeline-block left' : 'timeline-block right';
 
       const step = document.createElement('span');
       step.className = 'timeline-step';
@@ -85,11 +84,13 @@
       });
       content.appendChild(employeeList);
 
-
       block.appendChild(content);
       container.appendChild(block);
     });
   }
+
+
+
   function formatDate(epochTime) {
     let date = new Date(epochTime);
     return date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate();
