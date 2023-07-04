@@ -1,6 +1,7 @@
 package com.management.CompanyManagementSystem.Controller;
 
 import com.management.CompanyManagementSystem.Entity.Assignment;
+import com.management.CompanyManagementSystem.Entity.AssignmentDTO;
 import com.management.CompanyManagementSystem.Entity.Employee;
 import com.management.CompanyManagementSystem.Service.AssignmentService;
 import com.management.CompanyManagementSystem.Service.EmployeeService;
@@ -25,10 +26,11 @@ public class assignmentController {
     }
 
     @PostMapping("/create")
-    public String createAssignment(@ModelAttribute Assignment assignment, @RequestParam List<Integer> employeeIds) {
-        assignmentService.createAssignment(assignment, employeeIds);
-        return "redirect:/assignments";
+    public ResponseEntity<?> createAssignment(@RequestBody AssignmentDTO assignmentDTO) {
+        assignmentService.createAssignment(assignmentDTO.getAssignment(), assignmentDTO.getEmployeeIds());
+        return new ResponseEntity<>(assignmentDTO, HttpStatus.OK);
     }
+
 
     @GetMapping("getAll")
     public ResponseEntity<?> getAllAssignments(Principal principal) {

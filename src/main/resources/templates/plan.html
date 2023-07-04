@@ -20,6 +20,9 @@
 
       </div>
     </div>
+    <div class="button">
+      <input type="button" value="发布新任务" onclick="location.href='/newPlan'">
+    </div>
   </div>
 </div>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -34,8 +37,8 @@
     navbar.classList.toggle('active');
   }
 
+
   document.addEventListener('DOMContentLoaded', function () {
-    // Fetch assignments when the document is ready
     fetchAssignments();
   });
 
@@ -43,8 +46,8 @@
     fetch('/assignments/getAll')
             .then(response => response.json())
             .then(assignments => {
-              // Once the assignments are loaded, we can display them
-              displayAssignments(assignments);
+              let sortedAssignments = assignments.sort((a, b) => a.assignmentDeadline - b.assignmentDeadline);
+              displayAssignments(sortedAssignments);
             });
   }
 

@@ -134,8 +134,25 @@ public class indexController {
         model.addAttribute("fullName", employee.getFullName());
         model.addAttribute("department",departmentService.findDepartment(employee));
         model.addAttribute("encoder",passwordEncoder);
+        Collection<Employee> employees = employeeService.findUserList();
         Collection<Department> departments = departmentService.findAll();
         model.addAttribute("departments", departments);
+        model.addAttribute("employees",employees);
         return "plan";
+    }
+
+    @GetMapping("/newPlan")
+    public String newPlan(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("currentEmp", employee);
+        model.addAttribute("fullName", employee.getFullName());
+        model.addAttribute("department",departmentService.findDepartment(employee));
+        model.addAttribute("encoder",passwordEncoder);
+        Collection<Employee> employees = employeeService.findUserList();
+        Collection<Department> departments = departmentService.findAll();
+        model.addAttribute("departments", departments);
+        model.addAttribute("employees",employees);
+        return "newAssignment";
     }
 }

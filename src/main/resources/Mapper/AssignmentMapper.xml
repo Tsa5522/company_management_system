@@ -3,12 +3,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.management.CompanyManagementSystem.Mapper.AssignmentMapper">
 
-    <insert id="create" parameterType="com.management.CompanyManagementSystem.Entity.Assignment" useGeneratedKeys="true" keyProperty="AssignmentID">
+    <insert id="create" keyProperty="AssignmentID" useGeneratedKeys="true" parameterType="com.management.CompanyManagementSystem.Entity.Assignment">
         INSERT INTO Assignments (AssignmentName, AssignmentDescription, AssignmentDeadline)
         VALUES (#{AssignmentName}, #{AssignmentDescription}, #{AssignmentDeadline})
     </insert>
 
-    <insert id="assignAssignment" parameterType="map">
+    <insert id="assignAssignmentToUser" parameterType="map">
         INSERT INTO AssignmentUsers (AssignmentID, EmployeeID)
         VALUES (#{AssignmentID}, #{EmployeeID})
     </insert>

@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,20 +26,24 @@ public class AssignmentService {
     }
 
     public void createAssignment(Assignment assignment, List<Integer> employeeIds) {
-        Set<Employee> employees = null;
-        for (int empID:
-            employeeIds) {
+        if (assignment == null) {
+            throw new IllegalArgumentException("Assignment cannot be null");
+        }
+
+        Set<Employee> employees = new HashSet<>();
+        for (int empID: employeeIds) {
             employees.add(employeeMapper.findUserByID(empID));
         }
         assignment.setEmployees(employees);
         assignmentMapper.create(assignment);
         for (Integer employeeId : employeeIds) {
             Map<String, Object> map = new HashMap<>();
-            map.put("assignmentId", assignment.getAssignmentID());
-            map.put("employeeId", employeeId);
+            map.put("AssignmentID", assignment.getAssignmentID());
+            map.put("EmployeeID", employeeId);
             assignmentMapper.assignAssignmentToUser(map);
         }
     }
+
 
     public List<Assignment> getAll() {
         return assignmentMapper.getAllAssignments();

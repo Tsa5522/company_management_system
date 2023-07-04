@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/" />
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Employee</title>
+  <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+  <link href="../static/css/addUser.css" th:href="@{/css/addUser.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <div th:insert="~{common :: navbar}"></div>
+  <div class="toggle" onclick="toggleMenu()"></div>
+  <div class="main">
+    <div th:insert="~{common :: topbar}"></div>
+    <div class="content">
+      <div class="title">新建项目信息</div>
+      <form action="#" method="post">
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">项目名称</span>
+            <input type="text" name="title" id="assignmentName" placeholder="输入项目名称" required>
+          </div>
+          <div class="input-box">
+            <span class="details">项目描述</span>
+            <input type="text" name="description" id="assignmentDescription" placeholder="输入项目描述" required>
+          </div>
+          <div class="input-box">
+            <span class="details">日期/截止日期</span>
+            <input type="datetime-local" id="assignmentDeadline" name="deadline" required>
+          </div>
+          <div class="input-box">
+            <span class="details">参与员工（可多选）</span>
+            <select class="choose" id="employeeSelect" name="employees" multiple>
+              <option class="options" th:each="emp:${employees}" th:text="${emp.getFullName()}"
+                      th:value="${emp.getId()}"></option>
+            </select>
+          </div>
+        </div>
+        <div class="button">
+          <input type="submit" value="发布此任务">
+        </div>
+        <div class="button">
+          <input type="button" name="cancel" value="取消" onclick="location.href='/plan'">
+        </div>
+      </form>
+  </div>
+</div>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script type="text/javascript">
+  // 侧边栏的按钮的js
+  function toggleMenu(){
+    let navbar = document.querySelector('.navbar');
+    let main = document.querySelector('.main');
+    main.classList.toggle('active');
+    navbar.classList.toggle('active');
+  }
+
+  document.getElementById('assignmentForm').onsubmit = function(e) {
+    e.preventDefault(); // Prevent the form from submitting normally
+
+    let assignmentName = document.getElementById('assignmentName').value;
+    let assignmentDescription = document.getElementById('assignmentDescription').value;
+    let assignmentDeadline = document.getElementById('assignmentDeadline').value;
+    let employeeSelect = document.getElementById('employeeSelect');
+    let selectedEmployees = Array.from(employeeSelect.options)
+            .filter(option => option.selected)
+            .map(option => option.value);
+
+
+    fetch('/assignments/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        assignment: {
+          assignmentName: assignmentName,
+          assignmentDescription: assignmentDescription,
+          assignmentDeadline: new Date(assignmentDeadline).getTime()
+        },
+        employeeIds: selectedEmployees
+      })
+    }).then(response => {
+      if (response.ok) {
+        location.reload();
+      }
+    });
+
+  }
+</script>
+</body>
+</html>
