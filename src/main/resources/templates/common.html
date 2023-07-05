@@ -46,13 +46,13 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="/record">
           <span class="icon"><ion-icon name="recording-outline"></ion-icon></span>
           <span class="title">记录</span>
         </a>
       </li>
       <li>
-        <a href="/login">
+        <a href="/logout">
           <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
           <span class="title">登出</span>
         </a>
@@ -80,6 +80,16 @@
     <!-- userImg -->
   </div>
 </nav>
-
+<script type="text/javascript">
+  app.get('/logout', function(req, res){
+    req.session.destroy(function(err){
+      if(err){
+        console.log(err);
+      } else {
+        res.redirect('/login');
+      }
+    });
+  });
+</script>
 </body>
 </html>
