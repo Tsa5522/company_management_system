@@ -15,7 +15,7 @@
     <div th:insert="~{common :: topbar}"></div>
     <div class="content">
       <div class="title">新建项目信息</div>
-      <form action="#" method="post">
+      <form action="#">
         <div class="user-details">
           <div class="input-box">
             <span class="details">项目名称</span>
@@ -59,8 +59,8 @@
     navbar.classList.toggle('active');
   }
 
-  document.getElementById('assignmentForm').onsubmit = function(e) {
-    e.preventDefault(); // Prevent the form from submitting normally
+  document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault();
 
     let assignmentName = document.getElementById('assignmentName').value;
     let assignmentDescription = document.getElementById('assignmentDescription').value;
@@ -86,11 +86,16 @@
       })
     }).then(response => {
       if (response.ok) {
+        alert("发布成功！");
+        window.location.href = '/plan';
+      } else {
+        //如果失败刷新页面
+        alert("发布失败请稍后重试");
         location.reload();
       }
     });
 
-  }
+  });
 </script>
 </body>
 </html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.CompanyManagementSystem.Mapper.LogbookMapper">
+
+    <insert id="insertActivity" parameterType="com.management.CompanyManagementSystem.Entity.LogBook">
+        INSERT INTO OperationLog (operationType, operationTimestamp, operationUser, operationDetails)
+        VALUES (#{operationType}, #{operationTimestamp}, #{operationUser}, #{operationDetails})
+    </insert>
+
+    <select id="getRecordPerWeek" resultType="com.management.CompanyManagementSystem.Entity.LogBook">
+        SELECT *
+        FROM OperationLog
+        WHERE operationTimestamp >= #{timestamp}
+    </select>
+</mapper>

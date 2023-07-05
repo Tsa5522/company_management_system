@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
+}
+body {
+    min-height: 100vh;
+    background: lightblue;
+}
+.main {
+    position: absolute;
+    width: calc(100% - 120px);
+    left: 120px;
+    min-height: 100vh;
+    background: whitesmoke;
+    transition: 0.5s;
+}
+.main.active {
+    width: calc(100% - 340px);
+    left: 340px;
+}
+.logbook {
+    width: 80%;
+    margin: auto;
+}
+
+.logbook-entry {
+    border: 1px solid #ddd;
+    margin: 10px 0;
+    padding: 10px;
+}

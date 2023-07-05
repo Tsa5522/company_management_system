@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base href="/" />
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>record</title>
+    <link href="../static/css/dashboard.css" th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link href="../static/css/logbook.css" th:href="@{/css/logbook.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div th:insert="~{common :: navbar}"></div>
+    <div class="toggle" th:fragment="toggle" onclick="toggleMenu()">
+    </div>
+    <div class="main">
+        <div th:insert="~{common :: topbar}"></div>
+        <div class="logbook">
+            <h1>操作记录（近一周）</h1>
+            <div id="logbook-container">
+                <!-- Logbook entries will go here -->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<script type="text/javascript">
+    function toggleMenu(){
+        let navbar = document.querySelector('.navbar');
+        let toggle = document.querySelector('.toggle');
+        let main = document.querySelector('.main');
+        main.classList.toggle('active');
+        navbar.classList.toggle('active');
+    }
+    window.onload = function() {
+        const url = '/logbook/get';
+
+        fetch(url).then(response => response.json()).then(entries => {
+            const container = document.getElementById('logbook-container');
+            entries.forEach(entry => {
+                const div = document.createElement('div');
+                div.className = 'logbook-entry';
+
+                const timestamp = document.createElement('p');
+                timestamp.textContent = '操作时间: ' + new Date(entry.operationTimestamp).toLocaleString();
+                div.appendChild(timestamp);
+
+                const user = document.createElement('p');
+                user.textContent = '用户: ' + entry.operationUser;
+                div.appendChild(user);
+
+                const type = document.createElement('p');
+                type.textContent = '操作类型: ' + entry.operationType;
+                div.appendChild(type);
+
+                const details = document.createElement('p');
+                details.textContent = '操作简述: ' + entry.operationDetails;
+                div.appendChild(details);
+
+                container.appendChild(div);
+            });
+        });
+    }
+
+</script>
+</body>
+</html>
