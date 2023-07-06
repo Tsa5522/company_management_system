@@ -24,6 +24,11 @@
         SELECT * FROM employee
     </select>
 
+    <delete id="deleteFromAssignmentUsers" parameterType="int">
+        DELETE FROM AssignmentUsers WHERE EmployeeID = #{id}
+    </delete>
+
+
     <delete id="deleteUser" parameterType="int">
         DELETE FROM employee
         WHERE id = #{id}

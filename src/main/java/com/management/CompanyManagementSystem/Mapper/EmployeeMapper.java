@@ -17,4 +17,6 @@ public interface EmployeeMapper {
     void editEmployee(Employee employee);
     void editPassword(@Param("password") String password, @Param("id") int id);
     List<Employee> findUserByDepartment(int departmentID);
+
+    void deleteFromAssignmentUsers(int id);
 }

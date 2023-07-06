@@ -140,8 +140,9 @@
                     fetch('/user/deleteEmp/' + id, {
                         method: 'DELETE',
                     })
-                        .then(function(response) {
+                        .then(response => {
                             if(response.ok) {
+                                alert("删除成功");
                                 location.reload();
                             } else {
                                 console.log('Error: ' + response.statusText);

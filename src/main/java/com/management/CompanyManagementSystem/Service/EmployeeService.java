@@ -1,5 +1,6 @@
 package com.management.CompanyManagementSystem.Service;
 
+import com.management.CompanyManagementSystem.Entity.Assignment;
 import com.management.CompanyManagementSystem.Entity.Employee;
 import com.management.CompanyManagementSystem.Mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,13 @@ import java.util.Optional;
 public class EmployeeService{
     private final EmployeeMapper employeeMapper;
     private final PasswordEncoder passwordEncoder;
+    private final AssignmentService assignmentService;
 
     @Autowired
-    public EmployeeService(EmployeeMapper employeeMapper, PasswordEncoder passwordEncoder) {
+    public EmployeeService(EmployeeMapper employeeMapper, PasswordEncoder passwordEncoder, AssignmentService assignmentService) {
         this.employeeMapper = employeeMapper;
         this.passwordEncoder = passwordEncoder;
+        this.assignmentService = assignmentService;
     }
 
     public Employee findUserByEmail(String email) {
@@ -48,8 +51,13 @@ public class EmployeeService{
     public List<Employee> findUserList() {
         return employeeMapper.findUserList();
     }
-    public void deleteUserByID(int id) {
+    public boolean deleteUserByID(int id) {
+        employeeMapper.deleteFromAssignmentUsers(id);
         employeeMapper.deleteUser(id);
+        if (findUserById(id) != null) {
+            return false;
+        }
+        return true;
     }
 
     public void addEmp(Employee emp) {

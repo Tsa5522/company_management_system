@@ -15,43 +15,43 @@
           <span class="title" style="font-size: 1.5em;font-weight: 500;">业务管理系统</span>
         </a>
       </li>
-      <li>
+      <li id="tab1" data-tab="1">
         <a href="/index">
           <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
           <span class="title">主页面</span>
         </a>
       </li>
-      <li>
+      <li id="tab2" data-tab="2">
         <a href="/allEmp">
           <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
           <span class="title">员工</span>
         </a>
       </li>
-      <li>
+      <li id="tab3" data-tab="3">
         <a href="/inbox">
           <span class="icon"><ion-icon name="chatbubble-outline"></ion-icon></span>
           <span class="title">信息</span>
         </a>
       </li>
-      <li>
+      <li id="tab4" data-tab="4">
         <a href="/plan">
           <span class="icon"><ion-icon name="clipboard-outline"></ion-icon></span>
           <span class="title">计划</span>
         </a>
       </li>
-      <li>
+      <li id="tab5" data-tab="5">
         <a href="/settings">
           <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
           <span class="title">设置</span>
         </a>
       </li>
-      <li>
+      <li id="tab6" data-tab="6">
         <a href="/record">
           <span class="icon"><ion-icon name="recording-outline"></ion-icon></span>
           <span class="title">记录</span>
         </a>
       </li>
-      <li>
+      <li id="tab7" data-tab="7">
         <a href="/logout">
           <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
           <span class="title">登出</span>
@@ -80,16 +80,8 @@
     <!-- userImg -->
   </div>
 </nav>
-<script type="text/javascript">
-  app.get('/logout', function(req, res){
-    req.session.destroy(function(err){
-      if(err){
-        console.log(err);
-      } else {
-        res.redirect('/login');
-      }
-    });
-  });
-</script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
 </body>
 </html>

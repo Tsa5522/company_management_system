@@ -1,25 +1,31 @@
 package com.management.CompanyManagementSystem.Controller;
 
+import com.management.CompanyManagementSystem.Entity.LogBook;
 import com.management.CompanyManagementSystem.Entity.Message;
+import com.management.CompanyManagementSystem.Service.LogbookService;
 import com.management.CompanyManagementSystem.Service.MessageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/message")
 public class messageController {
     private final MessageService messageService;
+    private final LogbookService logbookService;
 
-    public messageController(MessageService messageService) {
+    public messageController(MessageService messageService, LogbookService logbookService) {
         this.messageService = messageService;
+        this.logbookService = logbookService;
     }
 
     @PostMapping("/send")

@@ -152,6 +152,11 @@ body {
 .navbar.active .toggle::after {
     transform: translateY(0px) rotate(225deg);
 }
+.navbar ul li.active {
+    background: white;
+    color: cornflowerblue;
+}
+
 
 .main {
     position: absolute;
