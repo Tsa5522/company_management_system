@@ -37,7 +37,8 @@ public class assignmentController {
         LogBook logBook = new LogBook();
         logBook.setOperationDetails("用户新发布了任务:" + assignmentDTO.getAssignment().getAssignmentName());
         logBook.setOperationType("限时项目相关");
-        logBook.setOperationUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        logBook.setOperationUser(employeeService.findUserByEmail(userName).getId());
         logBook.setOperationTimestamp(new Timestamp(new Date().getTime()));
         logbookService.logOperation(logBook);
         return new ResponseEntity<>(assignmentDTO, HttpStatus.OK);

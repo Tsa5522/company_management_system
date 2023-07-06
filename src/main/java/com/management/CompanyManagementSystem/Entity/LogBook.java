@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class LogBook {
     private int id;
     private String operationType;
-    private String operationUser;
+    private int operationUser;
     private String operationDetails;
     private Timestamp operationTimestamp;
 }

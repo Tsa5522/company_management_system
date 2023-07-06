@@ -13,7 +13,21 @@
     <div class="toggle" th:fragment="toggle" onclick="toggleMenu()">
     </div>
     <div class="main">
-        <div th:insert="~{common :: topbar}"></div>
+        <div class="topbar">
+            <div class="profile">
+                <h3 th:text="${fullName + '-' + department}"></h3>
+                <div class="user">
+                    <img src="/img/userImg.jpg">
+                </div>
+            </div>
+            <!--                 search -->
+            <div class="search">
+                <label>
+                    <input id="search-input" type="text" placeholder="搜索" onkeyup="searchFunction()">
+                    <ion-icon name="search-outline"></ion-icon>
+                </label>
+            </div>
+        </div>
         <div class="logbook">
             <h1>操作记录（近一周）</h1>
             <div id="logbook-container">
@@ -26,6 +40,28 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <script type="text/javascript">
+    function searchFunction() {
+        var input, filter, entries, i, j, txtValue;
+        input = document.getElementById("search-input");
+        filter = input.value.toUpperCase();
+        entries = document.getElementsByClassName("logbook-entry");
+
+        for (i = 0; i < entries.length; i++) {
+            var pTags = entries[i].getElementsByTagName("p");
+            var found = false;
+            for (j = 0; j < pTags.length; j++) {
+                if (pTags[j]) {
+                    txtValue = pTags[j].textContent || pTags[j].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            entries[i].style.display = found ? "" : "none";
+        }
+    }
+
     function toggleMenu(){
         let navbar = document.querySelector('.navbar');
         let toggle = document.querySelector('.toggle');
@@ -46,21 +82,34 @@
                 timestamp.textContent = '操作时间: ' + new Date(entry.operationTimestamp).toLocaleString();
                 div.appendChild(timestamp);
 
-                const user = document.createElement('p');
-                user.textContent = '操作人: ' + entry.operationUser;
-                div.appendChild(user);
+                fetch(`/user/getName/${entry.operationUser}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const userP = document.createElement('p');
+                        userP.textContent = '操作人: ' + data.fullName; // Here, `data` is the JSON object that the server returned, and `data.fullName` is the full name of the user.
+                        div.appendChild(userP);
+                        console.log("something");
 
-                const type = document.createElement('p');
-                type.textContent = '操作类型: ' + entry.operationType;
-                div.appendChild(type);
+                        const type = document.createElement('p');
+                        type.textContent = '操作类型: ' + entry.operationType;
+                        div.appendChild(type);
 
-                const details = document.createElement('p');
-                details.textContent = '操作简述: ' + entry.operationDetails;
-                div.appendChild(details);
+                        const details = document.createElement('p');
+                        details.textContent = '操作简述: ' + entry.operationDetails;
+                        div.appendChild(details);
 
-                container.appendChild(div);
+                        container.appendChild(div);
+                    })
+                    .catch(error => {
+                        console.error('There has been a problem with your fetch operation:', error);
+                    });
             });
-        });
+            });
     }
 
 </script>

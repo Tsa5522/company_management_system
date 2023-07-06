@@ -29,7 +29,11 @@
                     <canvas id="myChart"></canvas>
                 </div>
                 <div class="box">
-                    <canvas id="earning"></canvas>
+                    <div id="assignments-container">
+                        <h2>我的操作记录</h2>
+                        <input type="hidden" id="empID" th:value="${id}">
+                        <!-- 当前用户的activity -->
+                    </div>
                 </div>
             </div>
             <!--Add to-do list-->
@@ -53,6 +57,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script th:src="@{../static/js/common.js}"></script>
     <script type="text/javascript">
+
         function toggleMenu(){
             let navbar = document.querySelector('.navbar');
             let toggle = document.querySelector('.toggle');
@@ -62,11 +67,38 @@
         }
 
         //用网页暂时存了用户以前写的待办事项，但是待办事项是没有入数据库的
+
         window.onload = function() {
             var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
             for(var i = 0; i < tasks.length; i++) {
                 createNewTask(tasks[i].text, tasks[i].checked);
             }
+            const userID = document.getElementById("empID").value;
+            const url = '/logbook/get/' + userID;
+
+            fetch(url).then(response => response.json()).then(assignments => {
+                const container = document.getElementById('assignments-container');
+                assignments.forEach(assignment => {
+                    const div = document.createElement('div');
+                    div.className = 'assignment-entry';
+
+                    const timestamp = document.createElement('p');
+                    timestamp.textContent = '操作时间: ' + new Date(assignment.operationTimestamp).toLocaleString();
+                    div.appendChild(timestamp);
+
+
+                    const type = document.createElement('p');
+                    type.textContent = '操作类型: ' + assignment.operationType;
+                    div.appendChild(type);
+
+                    const details = document.createElement('p');
+                    details.textContent = '操作简述: ' + assignment.operationDetails;
+                    div.appendChild(details);
+
+                    container.appendChild(div);
+                });
+            });
+
         };
 
         //待办事项在表里的显示
@@ -180,6 +212,8 @@
                     data.datasets[0].data = counts;
                     chart.update();
                 });
+
+
         });
 
 

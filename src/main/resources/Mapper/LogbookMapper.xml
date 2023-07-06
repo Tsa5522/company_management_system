@@ -13,4 +13,10 @@
         FROM OperationLog
         WHERE operationTimestamp >= #{timestamp}
     </select>
+
+    <select id="getRecordById" resultType="com.management.CompanyManagementSystem.Entity.LogBook">
+        SELECT *
+        FROM OperationLog
+        WHERE operationUser = #{id}
+    </select>
 </mapper>

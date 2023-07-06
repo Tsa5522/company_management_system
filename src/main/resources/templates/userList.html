@@ -16,7 +16,7 @@
                 <div class="profile">
                     <h3 th:text="${fullName + '-' + department}"></h3>
                     <div class="user">
-                        <img src="/img/civilization5_4Kwallpaper.jpg">
+                        <img src="/img/userImg.jpg">
                     </div>
                 </div>
 <!--                 search -->
@@ -43,7 +43,7 @@
                     <tbody>
                         <tr th:each="emp:${employees}">
 <!--                            用户头像没有-->
-                            <!--                        <td><img src="/img/civilization5_4Kwallpaper.jpg"></td>-->
+                            <!--                        <td><img src="/img/userImg.jpg"></td>-->
                             <td th:text="${emp.getId()}" id="empId"></td>
                             <td th:text="${emp.getFullName}"></td>
                             <td th:text="${emp.getGenderString()}"></td>

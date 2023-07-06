@@ -41,6 +41,7 @@ public class loginController {
     public String getIndexPage(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Employee employee = employeeService.findUserByEmail(auth.getName());
+        model.addAttribute("id", employee.getId());
         model.addAttribute("fullName", employee.getFullName());
         model.addAttribute("department",departmentService.findDepartment(employee));
         model.addAttribute("departments", departmentService.findAll());
@@ -53,7 +54,8 @@ public class loginController {
         LogBook logBook = new LogBook();
         logBook.setOperationDetails("新员工注册："+ employee.getFullName());
         logBook.setOperationType("员工变动相关");
-        logBook.setOperationUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        logBook.setOperationUser(employeeService.findUserByEmail(userName).getId());
         logBook.setOperationTimestamp(new Timestamp(new Date().getTime()));
         logbookService.logOperation(logBook);
         if (registeredEmployee) {

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collection;
@@ -22,6 +23,12 @@ public class logbookController {
     @GetMapping("/get")
     public ResponseEntity<?> getRecordLastWeek(){
         Collection<LogBook> logBooks = logbookService.getWeeklyRecord();
+        return new ResponseEntity<>(logBooks, HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getRecordById(@PathVariable int id){
+        Collection<LogBook> logBooks = logbookService.getRecordById(id);
         return new ResponseEntity<>(logBooks, HttpStatus.OK);
     }
 }

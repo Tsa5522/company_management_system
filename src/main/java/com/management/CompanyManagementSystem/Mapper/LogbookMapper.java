@@ -10,4 +10,5 @@ import java.util.List;
 public interface LogbookMapper {
     void insertActivity(LogBook logBook);
     List<LogBook> getRecordPerWeek(Timestamp timestamp);
+    List<LogBook> getRecordById(int id);
 }

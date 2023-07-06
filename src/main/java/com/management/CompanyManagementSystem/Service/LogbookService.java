@@ -25,6 +25,11 @@ public class LogbookService {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis() - 7 * 24 * 60 * 60 * 1000);
         return logbookMapper.getRecordPerWeek(timestamp);
     }
+    public List<LogBook> getRecordById(int id) {
+        return logbookMapper.getRecordById(id);
+    }
+
+
 
 
 }

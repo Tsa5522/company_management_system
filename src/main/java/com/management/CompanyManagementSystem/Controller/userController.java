@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.Date;
 
 @RestController
@@ -39,7 +40,8 @@ public class userController {
         LogBook logBook = new LogBook();
         logBook.setOperationDetails("员工"+ employeeService.findUserById(id).getFullName() +"被删除");
         logBook.setOperationType("员工变动相关");
-        logBook.setOperationUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        logBook.setOperationUser(employeeService.findUserByEmail(userName).getId());
         logBook.setOperationTimestamp(new Timestamp(new Date().getTime()));
         logbookService.logOperation(logBook);
         boolean success = employeeService.deleteUserByID(id);
@@ -56,7 +58,8 @@ public class userController {
         LogBook logBook = new LogBook();
         logBook.setOperationDetails("新建员工："+ emp.getFullName());
         logBook.setOperationType("员工变动相关");
-        logBook.setOperationUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        logBook.setOperationUser(employeeService.findUserByEmail(userName).getId());
         logBook.setOperationTimestamp(new Timestamp(new Date().getTime()));
         logbookService.logOperation(logBook);
         return new ResponseEntity<>(emp, HttpStatus.OK);
@@ -68,7 +71,8 @@ public class userController {
         LogBook logBook = new LogBook();
         logBook.setOperationDetails("员工"+ emp.getFullName() + "信息被改动");
         logBook.setOperationType("员工变动相关");
-        logBook.setOperationUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        logBook.setOperationUser(employeeService.findUserByEmail(userName).getId());
         logBook.setOperationTimestamp(new Timestamp(new Date().getTime()));
         logbookService.logOperation(logBook);
         return new ResponseEntity<>(emp, HttpStatus.OK);
@@ -92,6 +96,12 @@ public class userController {
             employeeService.editPassword(employee);
             return new ResponseEntity<>("Password changed successfully", HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/getName/{id}")
+    public ResponseEntity<?> sayUser(@PathVariable int id){
+        Employee employee = employeeService.findUserById(id);
+        return new ResponseEntity<>(Collections.singletonMap("fullName", employee.getFullName()), HttpStatus.OK);
     }
 
 
