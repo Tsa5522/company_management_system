@@ -16,13 +16,55 @@ CREATE TABLE IF NOT EXISTS employee (
     id INT AUTO_INCREMENT PRIMARY KEY,
     fullName VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE ,
     gender INT,
     departmentID INT,
-    roleID INT,
+    roleID INT DEFAULT 1,
     FOREIGN KEY (departmentID) REFERENCES department(departmentID),
     FOREIGN KEY (roleID) REFERENCES authorization(roleID)
 );
+
+CREATE TABLE IF NOT EXISTS OperationLog (
+    id INT AUTO_INCREMENT,
+    operationType VARCHAR(255),
+    operationTimestamp TIMESTAMP,
+    operationUser INT,
+    operationDetails TEXT,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE IF NOT EXISTS Assignments (
+    AssignmentID INT AUTO_INCREMENT PRIMARY KEY,
+    AssignmentName VARCHAR(255),
+    AssignmentDescription VARCHAR(255),
+    AssignmentDeadline DATETIME
+);
+
+CREATE TABLE IF NOT EXISTS AssignmentUsers (
+    AssignmentID INT,
+    EmployeeID INT,
+    FOREIGN KEY (AssignmentID) REFERENCES Assignments(AssignmentID),
+    FOREIGN KEY (EmployeeID) REFERENCES employee(id)
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+    messageID INT AUTO_INCREMENT PRIMARY KEY,
+    sendTime DATETIME,
+    fromUser INT NOT NULL,
+    toUser INT NOT NULL,
+    title VARCHAR(20),
+    content VARCHAR(300)
+);
+
+CREATE TABLE IF NOT EXISTS OperationLog(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    operationType VARCHAR(255),
+    operationTimestamp TIMESTAMP,
+    operationUser INT,
+    operationDetails text,
+    FOREIGN KEY (operationUser) REFERENCES employee(id)
+);
+
 
 -- Inserting values into the authorization table
 INSERT INTO authorization (roleID, role) VALUES (0, 'ROLE_ADMIN'), (1, 'ROLE_USER');
